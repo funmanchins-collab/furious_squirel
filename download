@@ -1,4 +1,1 @@
-# Локальные секреты и состояние оплат
-/payment.local.php
-/storage/payments.json
-/storage/tochka-public-key-cache.json
+Require all denied
