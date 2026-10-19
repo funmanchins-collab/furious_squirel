@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<meta content="#ff6a00" name="theme-color"/>
+<meta content="telephone=no" name="format-detection"/>
+<title>Клуб Бешеной Белки — OCR &amp; Гонки с препятствиями</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&amp;family=Oswald:wght@500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+    window.yWidgetSettings = {
+        buttonAutoShow: false,       /* не показывать их кнопку */
+        showNewWidgetAutomatically: false
+    };
+</script>
+<script type="text/javascript" src="https://w2618148.yclients.ru/widgetJS" charset="UTF-8"></script>
+</head>
+<body>
+<!-- =========================================================
+         ТУМБЛЕР ТЕМЫ
+         ========================================================= -->
+<button aria-label="Переключить тему" class="theme-toggle" id="themeToggle">
+<svg class="icon-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="currentColor" r="4"></circle>
+<line x1="12" x2="12" y1="2" y2="4"></line>
+<line x1="12" x2="12" y1="20" y2="22"></line>
+<line x1="4" x2="2" y1="12" y2="12"></line>
+<line x1="22" x2="20" y1="12" y2="12"></line>
+<line x1="5.6" x2="4.2" y1="5.6" y2="4.2"></line>
+<line x1="19.8" x2="18.4" y1="19.8" y2="18.4"></line>
+<line x1="5.6" x2="4.2" y1="18.4" y2="19.8"></line>
+<line x1="19.8" x2="18.4" y1="4.2" y2="5.6"></line>
+</svg>
+<svg class="icon-moon" fill="currentColor" viewbox="0 0 24 24">
+<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+</svg>
+<span class="knob"></span>
+</button>
+<!-- =========================================================
+         САЙДБАР
+         ========================================================= -->
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-logo">
+<img alt="Клуб Бешеной Белки" onerror="this.onerror=null;this.src='images/logo.png';" src="logo.png"/>
+</div>
+<ul>
+<li>
+<a class="active" href="#hero">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+</span>
+<span class="label">
+                        Главная
+                    </span>
+</a>
+</li>
+<li>
+<a href="#trainers">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<path d="M6.5 6.5v11"></path>
+<path d="M17.5 6.5v11"></path>
+<path d="M3 9v6"></path>
+<path d="M21 9v6"></path>
+<path d="M6.5 12h11"></path>
+</svg>
+</span>
+<span class="label">
+                        Тренера
+                    </span>
+</a>
+</li>
+<li>
+<a href="#services">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="3"></circle>
+<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+</svg>
+</span>
+<span class="label">
+                        Услуги
+                    </span>
+</a>
+</li>
+<li>
+<a href="#schedule">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<rect height="18" rx="2" width="18" x="3" y="4"></rect>
+<line x1="16" x2="16" y1="2" y2="6"></line>
+<line x1="8" x2="8" y1="2" y2="6"></line>
+<line x1="3" x2="21" y1="10" y2="10"></line>
+</svg>
+</span>
+<span class="label">
+                        Расписание
+                    </span>
+</a>
+</li>
+<li>
+<a href="#gallery">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<rect height="18" rx="2" width="18" x="3" y="3"></rect>
+<circle cx="8.5" cy="8.5" r="1.5"></circle>
+<polyline points="21 15 16 10 5 21"></polyline>
+</svg>
+</span>
+<span class="label">
+                        Галерея
+                    </span>
+</a>
+</li>
+<li>
+<a href="#events">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<rect height="18" rx="2" width="18" x="3" y="4"></rect>
+<line x1="16" x2="16" y1="2" y2="6"></line>
+<line x1="8" x2="8" y1="2" y2="6"></line>
+<line x1="3" x2="21" y1="10" y2="10"></line>
+</svg>
+</span>
+<span class="label">
+                        Мероприятия
+                    </span>
+</a>
+</li>
+<li>
+<a href="#contacts">
+<span class="icon">
+<svg viewbox="0 0 24 24">
+<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+<circle cx="12" cy="7" r="4"></circle>
+</svg>
+</span>
+<span class="label">
+                        Контакты
+                    </span>
+</a>
+</li>
+</ul>
+</aside>
+<!-- =========================================================
+         ОСНОВНОЙ КОНТЕНТ
+         ========================================================= -->
+<div class="main-content">
+<!-- =====================================================
+             HERO
+             ===================================================== -->
+<section class="hero" id="hero">
+<!-- =================================================
+                 ТЕКСТ HERO
+                 ================================================= -->
+<div class="hero-text">
+<h1 class="hero-title">
+<span class="word-orange">
+                        КЛУБ
+                    </span>
+<span class="word-orange">
+                        БЕШЕНОЙ
+                    </span>
+<span class="word-white">
+                        БЕЛКИ
+                    </span>
+</h1>
+<div class="hero-subtitle">
+                    OCR &amp; Гонки с препятствиями
+                </div>
+<button class="cta-button" id="openBookingModal" type="button">
+
+                    Записаться на тренировку
+
+                    <svg class="arrow" viewbox="0 0 24 24">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</div>
+<!-- =================================================
+                 ЛОГОТИП
+                 ================================================= -->
+<div class="hero-logo">
+<img alt="Бешеная Белка" onerror="this.onerror=null;this.src='images/logo.png';" src="logo.png"/>
+</div>
+<!-- =================================================
+                 СЛОГАН
+                 ================================================= -->
+<div class="hero-tagline">
+<span>
+                    СИЛА
+                </span>
+<span class="divider">
+                    /
+                </span>
+<span>
+                    ВЫНОСЛИВОСТЬ
+                </span>
+<span class="divider">
+                    /
+                </span>
+<span>
+                    ХАРАКТЕР
+                </span>
+</div>
+</section>
+<!-- =====================================================
+             ТРЕНЕРЫ
+             ===================================================== -->
+<section id="trainers">
+<h2 class="section-title">
+                Тренеры
+            </h2>
+<p class="section-subtitle">
+                Команда, которая доведёт до финиша
+            </p>
+<div class="trainers-grid">
+<div class="trainer-card senior">
+<div class="trainer-photo">
+<img alt="Групповая тренировка по ниндзя и OCR" loading="lazy" src="images/treners/rushania.png"/>
+</div>
+<div class="trainer-name">
+                        Фёдор Трубин
+                    </div>
+<div class="trainer-spec">
+                        Старший тренер
+                    </div>
+<p class="trainer-desc">
+                        Основатель клуба. Ведёт группы «Ninja Kids 5-7», «Подготовительную», «Младшие ПРО» и «Старшие ПРО». Отвечает за общую стратегию подготовки и тактику прохождения трасс.
+                    </p>
+</div>
+<div class="trainer-card">
+<div class="trainer-photo">
+<img alt="Групповая тренировка по ниндзя и OCR" loading="lazy" src="images/treners/rushania.png"/>
+</div>
+<div class="trainer-name">
+                        Егор Вахонин
+                    </div>
+<div class="trainer-spec">
+                        Тренер
+                    </div>
+<p class="trainer-desc">
+                        Ведёт «Смешанную НАЧ», «Младшие НАЧ» и «Старшие НАЧ». Специализация — базовая физуха, техника бега и первые препятствия.
+                    </p>
+</div>
+<div class="trainer-card">
+<div class="trainer-photo">
+<img alt="Групповая тренировка по ниндзя и OCR" loading="lazy" src="images/treners/rushania.png"/>
+</div>
+<div class="trainer-name">
+                        Сергей Рукин
+                    </div>
+<div class="trainer-spec">
+                        Тренер
+                    </div>
+<p class="trainer-desc">
+                        Отвечает за «Смешанные НАЧ» и «Смешанные ПРО». Работает над общей выносливостью, правильной техникой и уверенностью новичков на трассе.
+                    </p>
+</div>
+<div class="trainer-card">
+<div class="trainer-photo">
+<img alt="Групповая тренировка по ниндзя и OCR" loading="lazy" src="images/treners/rushania.png"/>
+</div>
+<div class="trainer-name">
+                        Рушания Романова
+                    </div>
+<div class="trainer-spec">
+                        Тренер
+                    </div>
+<p class="trainer-desc">
+                        Ведёт «Смешанную НАЧ», «Младшие НАЧ» и «Старшие НАЧ». Специализация — базовая физуха, техника бега и первые препятствия.
+                    </p>
+</div>
+</div>
+</section>
+<!-- =====================================================
+             УСЛУГИ
+             ===================================================== -->
+<section id="services">
+<h2 class="section-title">
+                Услуги
+            </h2>
+<p class="section-subtitle">
+                Ниндзя и OCR — для детей и взрослых
+            </p>
+<div class="services-grid">
+<div class="service-card">
+<div class="service-photo">
+<img alt="Индивидуальная тренировка по ниндзя и OCR" loading="lazy" src="images/services/individual.png"/>
+</div>
+<div class="service-title">
+                        Индивидуальные занятия
+                    </div>
+<p class="service-intro">
+                        Хочешь подготовиться к участию в шоу «Суперниндзя» или соревнованиям? Работаем над техникой, хватом, координацией и скоростью. Индивидуально — значит, весь фокус на тебе.
+                    </p>
+<ul class="service-features">
+<li>Для детей от 5 лет, подростков и взрослых</li>
+<li>Тренеры — действующие спортсмены и участники шоу</li>
+<li>Наши спортсмены уже выступают на СТС</li>
+</ul>
+<div class="service-price">
+                        2 500 – 23 000 ₽
+                    </div>
+<button class="service-link" type="button" data-payment-service="individual">
+    Выбрать тариф
+
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+        <line x1="5" x2="19" y1="12" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+    </svg>
+</button>
+<button class="service-booking-link" type="button" data-yclients-open>Записаться</button>
+</div>
+<div class="service-card">
+<div class="service-photo">
+<img alt="Групповая тренировка по ниндзя и OCR" loading="lazy" src="images/services/group.png"/>
+</div>
+<div class="service-title">
+                        Групповые занятия
+                    </div>
+<p class="service-intro">
+                        Тренируйся в команде, где поддерживают и заряжают энергией. Групповые занятия для детей и взрослых — от новичков до тех, кто готовится к соревнованиям.
+                    </p>
+<ul class="service-features">
+<li>Работа над техникой, силой и выносливостью</li>
+<li>Подготовка к проекту «Суперниндзя» и соревнованиям</li>
+<li>Тренеры — аккредитованные специалисты</li>
+<li>Наши спортсмены уже выступают на СТС</li>
+</ul>
+<div class="service-price">
+                        1 150 – 10 500 ₽
+                    </div>
+<button class="service-link" type="button" data-payment-service="group">
+    Выбрать тариф
+
+    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+        <line x1="5" x2="19" y1="12" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+    </svg>
+</button>
+<button class="service-booking-link" type="button" data-yclients-open>Записаться</button>
+</div>
+</div>
+<!-- Кнопка прайса -->
+<div class="services-actions">
+<button class="price-button" id="openPriceModal" onclick="
+                        document.getElementById('priceModal').classList.add('active');
+                        document.body.style.overflow='hidden';
+                    " type="button">
+                    Прайс
+
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</div>
+</section>
+<!-- =====================================================
+             РАСПИСАНИЕ
+             ===================================================== -->
+<section id="schedule">
+<h2 class="section-title">
+                Расписание
+            </h2>
+<p class="section-subtitle">
+                Занятия на текущую неделю
+             <span class="schedule-total-count">Всего занятий: 30</span></p>
+<div class="schedule-legend">
+<div class="legend-item">
+<span class="legend-dot dot-kids"></span>
+                    Ninja Kids 5-7 лет
+                </div>
+<div class="legend-item">
+<span class="legend-dot dot-junior"></span>
+                    Младшие 7-10 лет
+                </div>
+<div class="legend-item">
+<span class="legend-dot dot-senior"></span>
+                    Старшие 11 лет и старше
+                </div>
+<div class="legend-item">
+<span class="legend-dot dot-mix"></span>
+                    Смешанные
+                </div>
+<div class="legend-item">
+<span class="legend-dot dot-prep"></span>
+                    Подготовительная
+                </div>
+</div>
+<div class="schedule-actions">
+<button class="download-schedule-btn" id="downloadSchedule" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+<polyline points="7 10 12 15 17 10"></polyline>
+<line x1="12" x2="12" y1="15" y2="3"></line>
+</svg>
+
+                    Скачать в Excel
+
+                </button>
+</div>
+<div class="schedule-trainers"><div class="schedule-trainer" data-coach="Фёдор Трубин"><div class="schedule-trainer__header"><span class="schedule-trainer__name">Фёдор Трубин</span><span class="schedule-trainer__spec">Старший тренер</span></div><div class="schedule-wrapper"><table class="schedule-table"><thead><tr><th>День</th><th>Время</th><th>Группа</th></tr></thead><tbody><tr><td class="day" rowspan="4">Пн</td><td class="time">09:00 – 10:20</td><td><span class="group-tag junior">Младшие ПРО</span></td></tr><tr><td class="time">10:30 – 11:50</td><td><span class="group-tag senior">Старшие ПРО</span></td></tr><tr><td class="time">18:00 – 19:20</td><td><span class="group-tag junior">Младшие ПРО</span></td></tr><tr><td class="time">19:30 – 20:50</td><td><span class="group-tag senior">Старшие ПРО</span></td></tr><tr><td class="day" rowspan="4">Ср</td><td class="time">09:00 – 10:20</td><td><span class="group-tag mix">Смешанная ПРО</span></td></tr><tr><td class="time">17:00 – 18:00</td><td><span class="group-tag kids">Ninja Kids</span></td></tr><tr><td class="time">18:00 – 19:20</td><td><span class="group-tag junior">Младшие ПРО</span></td></tr><tr><td class="time">19:30 – 20:50</td><td><span class="group-tag senior">Старшие ПРО</span></td></tr><tr><td class="day" rowspan="4">Пт</td><td class="time">09:00 – 10:20</td><td><span class="group-tag junior">Младшие ПРО</span></td></tr><tr><td class="time">10:30 – 11:50</td><td><span class="group-tag senior">Старшие ПРО</span></td></tr><tr><td class="time">18:00 – 19:20</td><td><span class="group-tag junior">Младшие ПРО</span></td></tr><tr><td class="time">19:30 – 20:50</td><td><span class="group-tag senior">Старшие ПРО</span></td></tr><tr><td class="day" rowspan="2">Сб</td><td class="time">10:00 – 11:00</td><td><span class="group-tag kids">Ninja Kids</span></td></tr><tr><td class="time">11:00 – 12:20</td><td><span class="group-tag mix">Смешанная ПРО</span></td></tr></tbody></table></div><div aria-hidden="true" class="schedule-mobile-hint"><span class="schedule-mobile-hint__text">← СМАХНИТЕ ВЛЕВО / ВПРАВО, ЧТОБЫ УВИДЕТЬ ВСЮ ТАБЛИЦУ →</span></div></div><div class="schedule-trainer" data-coach="Егор Вахонин"><div class="schedule-trainer__header"><span class="schedule-trainer__name">Егор Вахонин</span><span class="schedule-trainer__spec">Тренер</span></div><div class="schedule-wrapper"><table class="schedule-table"><thead><tr><th>День</th><th>Время</th><th>Группа</th></tr></thead><tbody><tr><td class="day" rowspan="3">Вт</td><td class="time">18:00 – 19:00</td><td><span class="group-tag kids">Ninja Kids</span></td></tr><tr><td class="time">19:00 – 20:00</td><td><span class="group-tag junior">Младшие НАЧ</span></td></tr><tr><td class="time">20:15 – 21:15</td><td><span class="group-tag senior">Старшие НАЧ</span></td></tr><tr><td class="day" rowspan="3">Чт</td><td class="time">18:00 – 19:00</td><td><span class="group-tag kids">Ninja Kids</span></td></tr><tr><td class="time">19:00 – 20:00</td><td><span class="group-tag junior">Младшие НАЧ</span></td></tr><tr><td class="time">20:15 – 21:15</td><td><span class="group-tag senior">Старшие НАЧ</span></td></tr></tbody></table></div><div aria-hidden="true" class="schedule-mobile-hint"><span class="schedule-mobile-hint__text">← СМАХНИТЕ ВЛЕВО / ВПРАВО, ЧТОБЫ УВИДЕТЬ ВСЮ ТАБЛИЦУ →</span></div></div><div class="schedule-trainer" data-coach="Сергей Рукин"><div class="schedule-trainer__header"><span class="schedule-trainer__name">Сергей Рукин</span><span class="schedule-trainer__spec">Тренер</span></div><div class="schedule-wrapper"><table class="schedule-table"><thead><tr><th>День</th><th>Время</th><th>Группа</th></tr></thead><tbody><tr><td class="day" rowspan="1">Пн</td><td class="time">15:30 – 16:30</td><td><span class="group-tag mix">Смешанная НАЧ</span></td></tr><tr><td class="day" rowspan="1">Ср</td><td class="time">15:30 – 16:30</td><td><span class="group-tag mix">Смешанная НАЧ</span></td></tr><tr><td class="day" rowspan="1">Пт</td><td class="time">15:30 – 16:30</td><td><span class="group-tag mix">Смешанная НАЧ</span></td></tr></tbody></table></div><div aria-hidden="true" class="schedule-mobile-hint"><span class="schedule-mobile-hint__text">← СМАХНИТЕ ВЛЕВО / ВПРАВО, ЧТОБЫ УВИДЕТЬ ВСЮ ТАБЛИЦУ →</span></div></div><div class="schedule-trainer" data-coach="Романова Рушания"><div class="schedule-trainer__header"><span class="schedule-trainer__name">Романова Рушания</span><span class="schedule-trainer__spec">Тренер</span></div><div class="schedule-wrapper"><table class="schedule-table"><thead><tr><th>День</th><th>Время</th><th>Группа</th></tr></thead><tbody><tr><td class="day" rowspan="3">Вт</td><td class="time">09:00 – 10:00</td><td><span class="group-tag junior">Младшие НАЧ</span></td></tr><tr><td class="time">10:00 – 11:00</td><td><span class="group-tag senior">Старшие НАЧ</span></td></tr><tr><td class="time">15:30 – 16:30</td><td><span class="group-tag mix">Смешанная НАЧ</span></td></tr><tr><td class="day" rowspan="3">Чт</td><td class="time">09:00 – 10:00</td><td><span class="group-tag junior">Младшие НАЧ</span></td></tr><tr><td class="time">10:00 – 11:00</td><td><span class="group-tag senior">Старшие НАЧ</span></td></tr><tr><td class="time">15:30 – 16:30</td><td><span class="group-tag mix">Смешанная НАЧ</span></td></tr><tr><td class="day" rowspan="1">Вс</td><td class="time">11:00 – 12:00</td><td><span class="group-tag mix">Смешанная НАЧ</span></td></tr></tbody></table></div><div aria-hidden="true" class="schedule-mobile-hint"><span class="schedule-mobile-hint__text">← СМАХНИТЕ ВЛЕВО / ВПРАВО, ЧТОБЫ УВИДЕТЬ ВСЮ ТАБЛИЦУ →</span></div></div></div>
+<p class="schedule-note">
+<strong>
+                    При первом посещении предварительная запись обязательна!
+                </strong>
+<br/>
+
+                Расписание индивидуальных занятий — по согласованию.
+
+            </p>
+</section>
+<!-- =====================================================
+             ГАЛЕРЕЯ
+             ===================================================== -->
+<section id="gallery">
+<h2 class="section-title">
+                Галерея
+            </h2>
+<p class="section-subtitle">
+                Выбери фотографию и открой весь альбом
+            </p>
+<div class="gallery-grid" id="galleryGrid">
+<button aria-label="Открыть альбом: Тренировка на трассе" class="gallery-item" type="button">
+<img alt="Тренировка на трассе" src="images/galery/1.jpg"/>
+<span class="gallery-cell-overlay">
+<span class="gallery-cell-title">Тренировка на трассе</span>
+<span class="gallery-cell-open">Открыть альбом</span>
+</span>
+</button>
+<button aria-label="Открыть альбом: Прохождение препятствий" class="gallery-item" type="button">
+<img alt="Прохождение препятствий" src="images/galery/2.jpg"/>
+<span class="gallery-cell-overlay">
+<span class="gallery-cell-title">Прохождение препятствий</span>
+<span class="gallery-cell-open">Открыть альбом</span>
+</span>
+</button>
+<button aria-label="Открыть альбом: Работа на рукоходе" class="gallery-item" type="button">
+<img alt="Работа на рукоходе" src="images/galery/3.jpg"/>
+<span class="gallery-cell-overlay">
+<span class="gallery-cell-title">Работа на рукоходе</span>
+<span class="gallery-cell-open">Открыть альбом</span>
+</span>
+</button>
+<button aria-label="Открыть альбом: Ninja Kids" class="gallery-item" type="button">
+<img alt="Ninja Kids" src="images/galery/4.jpg"/>
+<span class="gallery-cell-overlay">
+<span class="gallery-cell-title">Ninja Kids</span>
+<span class="gallery-cell-open">Открыть альбом</span>
+</span>
+</button>
+<button aria-label="Открыть альбом: На соревнованиях" class="gallery-item" type="button">
+<img alt="На соревнованиях" src="images/galery/5.jpg"/>
+<span class="gallery-cell-overlay">
+<span class="gallery-cell-title">На соревнованиях</span>
+<span class="gallery-cell-open">Открыть альбом</span>
+</span>
+</button>
+<button aria-label="Открыть альбом: Наша команда" class="gallery-item" type="button">
+<img alt="Наша команда" src="images/galery/6.jpg"/>
+<span class="gallery-cell-overlay">
+<span class="gallery-cell-title">Наша команда</span>
+<span class="gallery-cell-open">Открыть альбом</span>
+</span>
+</button>
+</div>
+</section>
+<!-- =====================================================
+             МЕРОПРИЯТИЯ
+             ===================================================== -->
+<section id="events">
+<h2 class="section-title">
+                Турниры и мероприятия
+            </h2>
+<p class="section-subtitle">
+                Анонсы стартов и событий клуба
+            </p>
+<div class="events-grid">
+<div class="event-card">
+<div class="event-date">
+<span class="day">
+                            15
+                        </span>
+<span class="month">
+                            Дек
+                        </span>
+<span class="year">
+                            2026
+                        </span>
+</div>
+<div class="event-content">
+<span class="event-badge">
+                            Регистрация открыта
+                        </span>
+<h3 class="event-title">
+                            Зимний OCR-забег «Снежная белка»
+                        </h3>
+<div class="event-meta">
+<span>
+                                📍 Тюмень, СРЦ Skymax
+                            </span>
+<span>
+                                🕐 10:00
+                            </span>
+</div>
+<p class="event-desc">
+                            Открытый забег с препятствиями для всех возрастов. Дистанции 1 км (дети) и 5 км (взрослые). Регистрация у тренера.
+                        </p>
+</div>
+</div>
+<div class="event-card">
+<div class="event-date">
+<span class="day">
+                            22
+                        </span>
+<span class="month">
+                            Дек
+                        </span>
+<span class="year">
+                            2026
+                        </span>
+</div>
+<div class="event-content">
+<span class="event-badge soon">
+                            Скоро
+                        </span>
+<h3 class="event-title">
+                            Новогодний мастер-класс от участников «Суперниндзя»
+                        </h3>
+<div class="event-meta">
+<span>
+                                📍 ТРЦ «Остров»
+                            </span>
+<span>
+                                🕐 12:00
+                            </span>
+</div>
+<p class="event-desc">
+                            Специальный мастер-класс от наших тренеров-участников шоу «Суперниндзя» на СТС. Показательные выступления + открытая тренировка для всех желающих.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- =====================================================
+             КОНТАКТЫ
+             ===================================================== -->
+<section class="contacts" id="contacts">
+<h2 class="section-title">
+                Контакты
+            </h2>
+<p class="section-subtitle">
+                Запишись на первое занятие
+            </p>
+<div class="contacts-info">
+<a class="contact-item phone-link" data-phone="+7 (932) 322-96-62" href="tel:+79323229662">
+<div class="label">
+                        Телефон
+                    </div>
+<div class="value">
+                        +7 (932) 322-96-62
+                    </div>
+<div class="map-hint">
+                        📞 Нажми, чтобы позвонить
+                    </div>
+</a>
+<button class="contact-item contact-item--button" id="openMapModal" type="button">
+<div class="label">
+                        Адрес
+                    </div>
+<div class="value">
+
+                        г. Тюмень, ул. Федюнинского, 67
+
+                        <br/>
+
+                        ТРЦ «Остров», СРЦ Skymax
+
+                    </div>
+<div class="map-hint">
+                        📍 Нажми, чтобы открыть карту
+                    </div>
+</button>
+<a class="contact-item" href="https://vk.ru/ffurious_squirrel_club" rel="noopener" target="_blank">
+<div class="label">
+                        ВКонтакте
+                    </div>
+<div class="value">
+                        vk.ru/ffurious_squirrel_club
+                    </div>
+</a>
+</div>
+<button class="cta-button" id="openBookingModal2" style="margin: 0 auto;" type="button">
+
+                Записаться на тренировку
+
+                <svg class="arrow" viewbox="0 0 24 24">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</section>
+<!-- =====================================================
+             FOOTER
+             ===================================================== -->
+<footer>
+<span class="cms-footer-copy">© 2026 Клуб Бешеной Белки — OCR, г. Тюмень.</span>
+<span class="cms-footer-vk-prefix">Мы в</span>
+<a class="cms-footer-vk-link" href="https://vk.ru/ffurious_squirrel_club" rel="noopener" target="_blank">
+                ВКонтакте
+            </a>.
+
+        </footer>
+</div>
+<!-- =========================================================
+         МОДАЛЬНОЕ ОКНО ЗАПИСИ
+         ========================================================= -->
+<div class="booking-modal" id="bookingModal">
+<div class="booking-modal__overlay" id="bookingModalOverlay"></div>
+<div class="booking-modal__content">
+<h3 class="booking-modal__title">
+                Записаться на тренировку
+            </h3>
+<p class="booking-modal__subtitle">
+                Выбери удобный способ связи
+            </p>
+<div class="booking-modal__options">
+<a class="booking-option phone-link" data-phone="+7 (932) 322-96-62" href="tel:+79323229662">
+<div class="booking-option__icon">
+                        📞
+                    </div>
+<div class="booking-option__text">
+<div class="booking-option__title">
+                            Позвонить
+                        </div>
+<div class="booking-option__desc">
+                            +7 (932) 322-96-62
+                        </div>
+</div>
+</a>
+<a class="booking-option" href="https://vk.ru/ffurious_squirrel_club" rel="noopener" target="_blank">
+<div class="booking-option__icon">
+                        💬
+                    </div>
+<div class="booking-option__text">
+<div class="booking-option__title">
+                            Написать в ВК
+                        </div>
+<div class="booking-option__desc">
+                            Сообщество клуба
+                        </div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- =========================================================
+         МОДАЛЬНОЕ ОКНО КАРТЫ
+         ========================================================= -->
+<div class="map-modal" id="mapModal">
+<div class="map-modal__overlay" id="mapModalOverlay"></div>
+<div class="map-modal__content">
+<h3 class="map-modal__title">
+                Как нас найти
+            </h3>
+<p class="map-modal__address">
+                г. Тюмень, ул. Федюнинского, 67, ТРЦ «Остров», СРЦ Skymax
+            </p>
+<div class="map-modal__frame">
+<iframe allowfullscreen="" loading="lazy" src="https://yandex.ru/map-widget/v1/?text=%D0%A2%D1%8E%D0%BC%D0%B5%D0%BD%D1%8C%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%A4%D0%B5%D0%B4%D1%8E%D0%BD%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%2067%2C%20%D0%A2%D0%A0%D0%A6%20%D0%9E%D1%81%D1%82%D1%80%D0%BE%D0%B2&amp;z=17">
+</iframe>
+</div>
+<a class="map-open-btn" href="https://yandex.ru/maps/?text=Тюмень, Федюнинского 67" rel="noopener" target="_blank">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+<circle cx="12" cy="10" r="3"></circle>
+</svg>
+
+                Открыть в приложении Яндекс.Карты
+
+            </a>
+</div>
+</div>
+<!-- =========================================================
+         УВЕДОМЛЕНИЕ О ЗВОНКЕ
+         ========================================================= -->
+<div class="call-toast" id="callToast">
+<div class="call-toast__icon">
+            📞
+        </div>
+<div class="call-toast__body">
+<div class="call-toast__title">
+                Позвоните нам с телефона
+            </div>
+<div class="call-toast__text">
+                С компьютера звонок не сработает. Наш номер:
+            </div>
+<div class="call-toast__phone" id="callToastPhone">
+                +7 (932) 322-96-62
+            </div>
+</div>
+<button class="call-toast__copy" id="callToastCopy" type="button">
+            Скопировать
+        </button>
+</div>
+<!-- =========================================================
+         АЛЬБОМ ГАЛЕРЕИ — MACOS STYLE
+         ========================================================= -->
+<div aria-hidden="true" class="gallery-album" id="galleryAlbum">
+<div class="gallery-album__backdrop" id="galleryAlbumBackdrop"></div>
+<div aria-labelledby="galleryAlbumTitle" aria-modal="true" class="gallery-album__window" id="galleryAlbumWindow" role="dialog">
+<div class="gallery-album__header">
+<div class="gallery-album__heading">
+<span class="gallery-album__eyebrow">ГАЛЕРЕЯ</span>
+<h3 id="galleryAlbumTitle">Все фотографии</h3>
+<span class="gallery-album__count" id="galleryAlbumCount">0 фото</span>
+</div>
+<button aria-label="Закрыть альбом" class="gallery-album__close" id="galleryAlbumClose" type="button">
+<span></span>
+<span></span>
+</button>
+</div>
+<div class="gallery-album__grid" id="galleryAlbumGrid"></div>
+</div>
+</div>
+<!-- =========================================================
+         ЛАЙТБОКС
+         ========================================================= -->
+<div class="lightbox" id="lightbox">
+<img alt="Просмотр фото" class="lightbox-img" id="lightbox-img"/>
+</div>
+<script src="script.js?v=20261019-1"></script>
+<!-- =========================================================
+        МОДАЛЬНОЕ ОКНО ПРАЙСА
+        ========================================================= -->
+<div class="price-modal" id="priceModal">
+<div class="price-modal__overlay" id="priceModalOverlay" onclick="
+            document.getElementById('priceModal').classList.remove('active');
+            document.body.style.overflow='';
+        "></div>
+<div class="price-modal__content">
+<button aria-label="Закрыть прайс" class="price-modal__close" id="priceModalClose" onclick="
+                document.getElementById('priceModal').classList.remove('active');
+                document.body.style.overflow='';
+            " type="button">
+<span></span>
+<span></span>
+</button>
+<!--<h3 class="price-modal__title">
+            Прайс
+        </h3>-->
+<div class="price-modal__frame">
+<img alt="Прайс клуба Бешеной Белки" loading="lazy" src="images/price/price.png"/>
+</div>
+</div>
+</div>
+
+<!-- =========================================================
+     ОПЛАТА ТАРИФОВ: Точка.API + резервные ссылки из PDF
+     ========================================================= -->
+<div class="payment-modal" id="paymentModal" aria-hidden="true">
+    <div class="payment-modal__overlay" data-payment-close></div>
+    <section class="payment-modal__content" role="dialog" aria-modal="true" aria-labelledby="paymentModalTitle">
+        <button class="payment-modal__close" id="paymentModalClose" type="button" aria-label="Закрыть выбор тарифа">×</button>
+        <div class="payment-modal__eyebrow">Клуб «Бешеная Белка»</div>
+        <h2 id="paymentModalTitle">Выберите тариф</h2>
+        <p class="payment-modal__intro">Выберите формат занятий и подходящий абонемент. Перед оплатой ещё раз проверьте сумму на странице банка.</p>
+        <div id="paymentCustomerInfo" class="payment-customer-info" hidden>
+            <p>Данные нужны для отправки электронного чека.</p>
+            <label for="paymentCustomerName">Имя плательщика</label>
+            <input id="paymentCustomerName" type="text" maxlength="160" autocomplete="name" placeholder="Имя и фамилия">
+            <label for="paymentCustomerEmail">Email для чека</label>
+            <input id="paymentCustomerEmail" type="email" maxlength="254" autocomplete="email" placeholder="name@example.com">
+            <label for="paymentCustomerPhone">Телефон (необязательно)</label>
+            <input id="paymentCustomerPhone" type="tel" maxlength="25" autocomplete="tel" placeholder="+7 …">
+        </div>
+        <div id="paymentTariffList" class="payment-tariffs" aria-live="polite"></div>
+        <p id="paymentModalNotice" class="payment-modal__notice" role="status">Выберите тариф. На следующем шаге откроется страница оплаты.</p>
+    </section>
+</div>
+
+<script src="payments.js?v=20261019-1"></script>
+</body>
+</html>

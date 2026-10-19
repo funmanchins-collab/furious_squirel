@@ -1,0 +1,4686 @@
+/* ==================== ПЕРЕМЕННЫЕ ==================== */
+:root {
+    --primary: #ff6a00;
+    --primary-dark: #cc4400;
+    --bg-main: #f2f0ee;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --text-main: #1a1a1a;
+    --text-muted: #555555;
+    --border: #dddddd;
+
+    --hero-bg: linear-gradient(180deg, #ffffff 0%, #f0ece8 100%);
+    --trainers-bg: linear-gradient(160deg, #f8f8f8 0%, #efefef 50%, #f8f8f8 100%);
+    --services-bg: linear-gradient(200deg, #ffffff 0%, #f5efe8 100%);
+    --schedule-bg: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+    --gallery-bg: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+    --events-bg: linear-gradient(170deg, #f5efe8 0%, #ffffff 100%);
+    --contacts-bg: linear-gradient(180deg, #f5efe8 0%, #ffffff 100%);
+
+    --hero-photo: url("images/backgrounds/hero-light.png");
+    --trainers-photo: url("images/backgrounds/trainers-light.png");
+    --common-photo: url("images/backgrounds/common-light.png");
+    --events-photo: url("images/backgrounds/events-light.png");
+
+    --color-kids: #b8860b;
+    --color-junior: #1971c2;
+    --color-senior: #6741d9;
+    --color-mix: #ff6a00;
+    --color-prep: #2f9e44;
+
+    --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 15px 45px rgba(255, 106, 0, 0.25);
+
+    --sidebar-width: 90px;
+    --sidebar-expanded: 220px;
+    --section-padding-x: 60px;
+    --section-padding-y: 80px;
+}
+
+body.dark-theme {
+    --bg-main: #0e0e0e;
+    --bg-sidebar: #1a1a1a;
+    --bg-card: #1a1a1a;
+    --text-main: #f0f0f0;
+    --text-muted: #999999;
+    --border: #2a2a2a;
+
+    --hero-bg: linear-gradient(180deg, #0a0a0a 0%, #150800 100%);
+    --trainers-bg: linear-gradient(160deg, #0a0a0a 0%, #141414 50%, #0a0a0a 100%);
+    --services-bg: linear-gradient(200deg, #0a0a0a 0%, #140800 100%);
+    --schedule-bg: linear-gradient(135deg, #0e0e0e 0%, #0a0500 100%);
+    --gallery-bg: linear-gradient(180deg, #0a0a0a 0%, #0e0e0e 100%);
+    --events-bg: linear-gradient(170deg, #100600 0%, #0a0a0a 100%);
+    --contacts-bg: linear-gradient(180deg, #100600 0%, #050505 100%);
+
+    --hero-photo: url("images/backgrounds/hero-dark.png");
+    --trainers-photo: url("images/backgrounds/trainers-dark.png");
+    --common-photo: url("images/backgrounds/common-dark.png");
+    --events-photo: url("images/backgrounds/events-dark.png");
+
+    --color-kids: #ffcc00;
+    --color-junior: #4dabf7;
+    --color-senior: #9775fa;
+    --color-prep: #51cf66;
+
+    --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.6);
+    --shadow-hover: 0 15px 45px rgba(255, 106, 0, 0.4);
+}
+
+/* ==================== СБРОС ==================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Oswald', sans-serif;
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+}
+
+button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+img { max-width: 100%; height: auto; }
+
+/* ==================== ТУМБЛЕР ТЕМЫ ==================== */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    width: 80px;
+    height: 38px;
+    border: none;
+    border-radius: 19px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    cursor: pointer;
+    z-index: 500;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(255, 106, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.theme-toggle:hover { box-shadow: 0 6px 22px rgba(255, 106, 0, 0.7); }
+.theme-toggle:active { transform: scale(0.94); }
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+    width: 18px;
+    height: 18px;
+    color: #fff;
+    flex-shrink: 0;
+    opacity: 0.55;
+    transition: opacity 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+body:not(.dark-theme) .theme-toggle .icon-sun { opacity: 1; }
+body.dark-theme .theme-toggle .icon-moon { opacity: 1; }
+
+.theme-toggle .knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+body.dark-theme .theme-toggle .knob { left: calc(100% - 35px); }
+
+/* ==================== САЙДБАР ==================== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: var(--sidebar-width);
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(18px) saturate(115%);
+    -webkit-backdrop-filter: blur(18px) saturate(115%);
+    border-right: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+        6px 0 30px rgba(0, 0, 0, 0.10),
+        inset -1px 0 0 rgba(255, 255, 255, 0.25);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+    overflow: hidden;
+    transition:
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.sidebar:hover,
+.sidebar.open {
+    width: var(--sidebar-expanded);
+}
+
+body.dark-theme .sidebar {
+    background: rgba(18, 18, 18, 0.40);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        6px 0 30px rgba(0, 0, 0, 0.35),
+        inset -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 5px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+body.dark-theme .sidebar-logo {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+.sidebar-logo img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    display: block;
+    transition: width 0.4s ease, height 0.4s ease;
+}
+.sidebar:hover .sidebar-logo img,
+.sidebar.open .sidebar-logo img {
+    width: 70px;
+    height: 70px;
+}
+
+.sidebar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.sidebar ul::-webkit-scrollbar { width: 0; }
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    height: 52px;
+    white-space: nowrap;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.sidebar a .icon {
+    flex-shrink: 0;
+    width: calc(var(--sidebar-width) - 3px);
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, width 0.4s ease;
+}
+
+.sidebar a .icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    transition: transform 0.3s ease;
+}
+
+.sidebar a .label {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    padding-right: 15px;
+    line-height: 1.15;
+}
+.sidebar:hover a .label,
+.sidebar.open a .label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    background: rgba(255, 106, 0, 0.10);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme .sidebar a:hover,
+body.dark-theme .sidebar a.active {
+    background: rgba(255, 106, 0, 0.12);
+}
+
+.sidebar a:hover .icon svg,
+.sidebar a.active .icon svg { transform: scale(1.1); }
+
+/* ==================== ОСНОВНОЙ КОНТЕНТ ==================== */
+.main-content {
+    margin-left: var(--sidebar-width);
+    position: relative;
+    z-index: 1;
+    transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+section {
+    position: relative;
+    padding: var(--section-padding-y) var(--section-padding-x);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* ==================== ФОНЫ СЕКЦИЙ (базовые) ==================== */
+
+#hero {
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,0.64) 0%, rgba(255,255,255,0.50) 48%, rgba(255,255,255,0.62) 100%),
+        var(--hero-photo);
+    background-color: var(--bg-main);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#trainers {
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.54) 50%, rgba(255,255,255,0.70) 100%),
+        var(--trainers-photo);
+    background-color: var(--bg-main);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#services,
+#schedule,
+#gallery,
+#contacts {
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,0.80) 0%, rgba(255,255,255,0.66) 50%, rgba(255,255,255,0.80) 100%),
+        var(--common-photo);
+    background-color: var(--bg-main);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#events {
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.48) 48%, rgba(255,255,255,0.64) 100%),
+        var(--events-photo);
+    background-color: var(--bg-main);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+body.dark-theme #hero {
+    background-image:
+        linear-gradient(90deg, rgba(5,5,5,0.67) 0%, rgba(5,5,5,0.50) 48%, rgba(5,5,5,0.63) 100%),
+        var(--hero-photo);
+}
+
+body.dark-theme #trainers {
+    background-image:
+        linear-gradient(90deg, rgba(5,5,5,0.68) 0%, rgba(5,5,5,0.50) 50%, rgba(5,5,5,0.66) 100%),
+        var(--trainers-photo);
+}
+
+body.dark-theme #services,
+body.dark-theme #schedule,
+body.dark-theme #gallery,
+body.dark-theme #contacts {
+    background-image:
+        linear-gradient(90deg, rgba(5,5,5,0.76) 0%, rgba(5,5,5,0.60) 50%, rgba(5,5,5,0.76) 100%),
+        var(--common-photo);
+}
+
+body.dark-theme #events {
+    background-image:
+        linear-gradient(90deg, rgba(5,5,5,0.66) 0%, rgba(5,5,5,0.50) 48%, rgba(5,5,5,0.64) 100%),
+        var(--events-photo);
+}
+
+
+/* ==================== HERO ==================== */
+.hero {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: 40px;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.hero-text { padding-left: 20px; }
+
+.hero-title {
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(40px, 6.5vw, 96px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    transform: skewX(-8deg);
+    display: inline-block;
+}
+.hero-title .word-orange {
+    display: block;
+    color: var(--primary);
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 5px 5px 0 rgba(0,0,0,0.15);
+    font-style: italic;
+}
+.hero-title .word-white {
+    display: block;
+    color: #ffffff;
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, -4px 4px 0 var(--primary), 5px 5px 0 rgba(0,0,0,0.2);
+    font-style: italic;
+}
+
+.hero-subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(14px, 1.5vw, 22px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-main);
+    font-style: italic;
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.hero-subtitle::before {
+    content: "";
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary);
+    flex-shrink: 0;
+    transform: skewX(-20deg);
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 40px;
+    background: linear-gradient(135deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
+}
+.cta-button:hover {
+    transform: translateX(5px);
+    box-shadow: 0 12px 30px rgba(255, 106, 0, 0.55);
+}
+.cta-button:active { transform: translateX(5px) scale(0.97); }
+.cta-button .arrow {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+}
+
+.hero-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-45px);
+}
+.hero-logo img {
+    max-width: 120%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 15px 40px rgba(255, 106, 0, 0.4));
+    animation: logoFloat 5s ease-in-out infinite;
+}
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.hero-tagline {
+    position: absolute;
+    bottom: 35px;
+    right: 60px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+.hero-tagline .divider { color: var(--primary); font-weight: 900; }
+
+/* ==================== ЗАГОЛОВКИ ==================== */
+.section-title {
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(30px, 4vw, 54px);
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 12px;
+    transform: skewX(-6deg);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+}
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 55px;
+    position: relative;
+    padding-bottom: 18px;
+    font-style: italic;
+}
+.section-subtitle::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) skewX(-20deg);
+    width: 70px;
+    height: 3px;
+    background-color: var(--primary);
+}
+
+/* ==================== ТРЕНЕРЫ ==================== */
+.trainers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.trainer-card {
+    background-color: var(--bg-card);
+    border-top: 4px solid var(--primary);
+    padding: 30px 22px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+.trainer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.trainer-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #2a2a2a, #000);
+    border: 3px solid var(--primary);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(255, 106, 0, 0.4);
+}
+.trainer-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.trainer-name {
+    font-family: 'Russo One', sans-serif;
+    font-size: 17px;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    transform: skewX(-4deg);
+}
+.trainer-spec {
+    color: var(--primary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-style: italic;
+}
+.trainer-desc {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.trainer-card.senior { border-top-width: 5px; }
+.trainer-card.senior::after {
+    content: "★ СТАРШИЙ";
+    position: absolute;
+    top: 0;
+    right: 15px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
+}
+
+/* ==================== УСЛУГИ ==================== */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 35px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.service-card {
+    background-color: var(--bg-card);
+    padding: 0 0 40px;
+    transition: all 0.4s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    border-top: 5px solid var(--primary);
+    overflow: hidden;
+}
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Фото сверху карточки */
+.service-photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.08);
+    margin-bottom: 26px;
+    flex-shrink: 0;
+}
+.service-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+.service-card:hover .service-photo img {
+    transform: scale(1.05);
+    filter: saturate(1.06) contrast(1.03);
+}
+.service-photo::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 40%;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.18) 100%);
+    pointer-events: none;
+}
+
+/* Текстовые блоки получают отступы, фото — нет */
+.service-card > .service-title,
+.service-card > .service-intro,
+.service-card > .service-features,
+.service-card > .service-price,
+.service-card > .service-link {
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.service-icon { font-size: 50px; margin-bottom: 18px; display: block; text-align: center; }
+
+.service-title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 22px;
+    text-align: center;
+}
+.service-intro { color: var(--text-main); font-size: 14px; line-height: 1.7; margin-bottom: 22px; }
+
+.service-features { list-style: none; margin-bottom: 25px; flex-grow: 1; padding-left: 0; }
+.service-features li {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 8px 0 8px 26px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+}
+.service-features li:last-child { border-bottom: none; }
+.service-features li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.service-price {
+    font-family: 'Russo One', sans-serif;
+    color: var(--text-main);
+    font-size: 26px;
+    letter-spacing: 1px;
+    padding-top: 22px;
+    border-top: 2px solid var(--border);
+    text-align: center;
+}
+.service-price::before {
+    content: "СТОИМОСТЬ";
+    display: block;
+    color: var(--primary);
+    font-size: 10px;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+/* Скрываем старые VK-кнопки «Записаться», если где-то остались 
+.service-card .service-link {
+    display: none !important;
+}*/
+
+/* ==================== РАСПИСАНИЕ ==================== */
+.schedule-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px 25px;
+    max-width: 950px;
+    margin: 0 auto 35px;
+    padding: 18px;
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-card);
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.dot-kids { background-color: var(--color-kids); }
+.dot-junior { background-color: var(--color-junior); }
+.dot-senior { background-color: var(--color-senior); }
+.dot-mix { background-color: var(--color-mix); }
+.dot-prep { background-color: var(--color-prep); }
+
+.schedule-actions {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 25px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.download-schedule-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
+}
+.download-schedule-btn:hover {
+    transform: translateX(5px);
+    box-shadow: 0 12px 30px rgba(255, 106, 0, 0.55);
+}
+.download-schedule-btn:active { transform: translateX(5px) scale(0.97); }
+.download-schedule-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+.download-schedule-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+.schedule-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    overflow-x: auto;
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-card);
+    -webkit-overflow-scrolling: touch;
+}
+.schedule-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+.schedule-table th {
+    background-color: var(--primary);
+    color: #fff;
+    padding: 16px 18px;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 900;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.schedule-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-main);
+    font-size: 14px;
+    vertical-align: middle;
+}
+.schedule-table tr:last-child td { border-bottom: none; }
+.schedule-table tr:hover td { background-color: rgba(255, 106, 0, 0.06); }
+.schedule-table .day {
+    color: var(--primary);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 15px;
+    background-color: rgba(255, 106, 0, 0.06);
+    text-align: center;
+    vertical-align: middle;
+    border-right: 2px solid var(--primary);
+    font-family: 'Russo One', sans-serif;
+}
+.schedule-table .time { color: var(--text-muted); font-weight: 700; white-space: nowrap; font-size: 13px; }
+.schedule-table .coach { color: var(--text-main); font-weight: 700; white-space: nowrap; }
+
+.group-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-left: 3px solid;
+    background-color: rgba(255, 106, 0, 0.06);
+    white-space: nowrap;
+}
+.group-tag.kids { color: var(--color-kids); border-color: var(--color-kids); }
+.group-tag.junior { color: var(--color-junior); border-color: var(--color-junior); }
+.group-tag.senior { color: var(--color-senior); border-color: var(--color-senior); }
+.group-tag.mix { color: var(--color-mix); border-color: var(--color-mix); }
+.group-tag.prep { color: var(--color-prep); border-color: var(--color-prep); }
+
+.schedule-note {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.schedule-note strong { color: var(--primary); }
+
+/* ==================== ГАЛЕРЕЯ (базовая) ==================== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    transition: all 0.3s ease;
+    background-color: var(--bg-card);
+}
+.gallery-item:hover {
+    border-color: var(--primary);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-hover);
+}
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+}
+.gallery-item:hover img { transform: scale(1.1); }
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 12px 12px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+.gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+/* ==================== ЛАЙТБОКС ==================== */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border: 3px solid var(--primary);
+    box-shadow: 0 0 80px rgba(255, 106, 0, 0.5);
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lightbox.active img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==================== МЕРОПРИЯТИЯ ==================== */
+.events-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    max-width: 950px;
+    margin: 0 auto;
+    width: 100%;
+}
+.event-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    background-color: var(--bg-card);
+    border-left: 5px solid var(--primary);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+.event-card:hover {
+    transform: translateX(8px);
+    box-shadow: var(--shadow-hover);
+}
+.event-date {
+    background: linear-gradient(180deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 18px;
+    text-align: center;
+}
+.event-date .day { font-family: 'Russo One', sans-serif; font-size: 42px; line-height: 1; }
+.event-date .month { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 8px; }
+.event-date .year { font-size: 11px; font-weight: 700; letter-spacing: 2px; opacity: 0.85; margin-top: 3px; }
+
+.event-content { padding: 22px 28px; display: flex; flex-direction: column; justify-content: center; }
+.event-badge {
+    display: inline-block;
+    background-color: rgba(255, 106, 0, 0.15);
+    color: var(--primary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--primary);
+    align-self: flex-start;
+}
+.event-badge.soon {
+    background-color: rgba(81, 207, 102, 0.15);
+    color: #2f9e44;
+    border-left-color: #2f9e44;
+}
+body.dark-theme .event-badge.soon { color: #51cf66; border-left-color: #51cf66; }
+
+.event-title {
+    font-family: 'Russo One', sans-serif;
+    color: var(--text-main);
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+.event-meta {
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-weight: 700;
+}
+.event-desc { color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+
+/* ==================== КОНТАКТЫ ==================== */
+.contacts { text-align: center; align-items: center; }
+
+.contacts-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto 45px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.contacts-info .contact-item {
+    flex: 1 1 260px;
+    max-width: 340px;
+    min-width: 240px;
+}
+
+.contact-item {
+    background-color: var(--bg-card);
+    border-left: 3px solid var(--primary);
+    padding: 25px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-card);
+}
+.contact-item:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px);
+}
+.contact-item .label {
+    color: var(--primary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.contact-item .value {
+    color: var(--text-main);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.contact-item--button {
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    border-left: 3px solid var(--primary);
+    position: relative;
+    color: inherit;
+    text-align: center;
+    width: 100%;
+}
+.map-hint {
+    color: var(--primary);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 10px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+.contact-item--button:hover .map-hint,
+.contact-item.phone-link:hover .map-hint { opacity: 1; }
+
+/* ==================== МОДАЛЬНОЕ ОКНО ЗАПИСИ ==================== */
+.booking-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9997;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.booking-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.booking-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(0px);
+    transition: backdrop-filter 0.4s ease;
+}
+.booking-modal.active .booking-modal__overlay {
+    backdrop-filter: blur(4px);
+}
+
+.booking-modal__content {
+    position: relative;
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 500px;
+    padding: 40px 30px 30px;
+    box-shadow: 0 25px 80px rgba(255, 106, 0, 0.4);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.booking-modal.active .booking-modal__content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.booking-modal__title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 24px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    transform: skewX(-4deg);
+}
+
+.booking-modal__subtitle {
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+.booking-modal__options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-option {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 22px;
+    background: var(--bg-main);
+    border: 2px solid var(--border);
+    border-left: 5px solid var(--primary);
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: left;
+}
+
+.booking-option:hover {
+    border-color: var(--primary);
+    border-left-color: var(--primary);
+    background: rgba(255, 106, 0, 0.08);
+    transform: translateX(6px);
+    box-shadow: 0 10px 30px rgba(255, 106, 0, 0.25);
+}
+
+.booking-option__icon {
+    font-size: 36px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+.booking-option:hover .booking-option__icon {
+    transform: scale(1.15) rotate(-8deg);
+}
+
+.booking-option__text { flex-grow: 1; min-width: 0; }
+
+.booking-option__title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.booking-option__desc {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== МОДАЛЬНОЕ ОКНО КАРТЫ ==================== */
+.map-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.map-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.map-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(0px);
+    transition: backdrop-filter 0.4s ease;
+}
+.map-modal.active .map-modal__overlay {
+    backdrop-filter: blur(4px);
+}
+
+.map-modal__content {
+    position: relative;
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    padding: 40px 30px 30px;
+    box-shadow: 0 25px 80px rgba(255, 106, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.map-modal.active .map-modal__content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.map-modal__title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 26px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 8px;
+    transform: skewX(-4deg);
+}
+
+.map-modal__address {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.map-modal__frame {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    border: 2px solid var(--border);
+    background: var(--bg-main);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.map-modal__frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(0.2) contrast(1.05);
+}
+body.dark-theme .map-modal__frame iframe {
+    filter: grayscale(0.3) invert(0.92) hue-rotate(180deg) contrast(0.9);
+}
+
+.map-open-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
+    align-self: center;
+}
+.map-open-btn:hover {
+    transform: translateX(5px);
+    box-shadow: 0 12px 30px rgba(255, 106, 0, 0.55);
+}
+.map-open-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* ==================== УВЕДОМЛЕНИЕ О ЗВОНКЕ ==================== */
+.call-toast {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translate(-50%, 150%);
+    background-color: var(--bg-card);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    padding: 18px 20px;
+    box-shadow: 0 15px 50px rgba(255, 106, 0, 0.4);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 500px;
+    width: calc(100% - 30px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+                opacity 0.4s ease;
+}
+.call-toast.active {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.call-toast__icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    animation: phoneShake 1.5s ease-in-out infinite;
+}
+@keyframes phoneShake {
+    0%, 100% { transform: rotate(0); }
+    10%, 30%, 50% { transform: rotate(-12deg); }
+    20%, 40%, 60% { transform: rotate(12deg); }
+    70% { transform: rotate(0); }
+}
+
+.call-toast__body { flex-grow: 1; min-width: 0; }
+.call-toast__title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+.call-toast__text {
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+.call-toast__phone {
+    font-family: 'Russo One', sans-serif;
+    color: var(--text-main);
+    font-size: 17px;
+    letter-spacing: 1px;
+    user-select: all;
+}
+
+.call-toast__copy {
+    background: linear-gradient(135deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+}
+.call-toast__copy:hover {
+    transform: translateX(3px);
+    box-shadow: 0 6px 20px rgba(255, 106, 0, 0.5);
+}
+.call-toast__copy.copied {
+    background: linear-gradient(135deg, #51cf66, #2f9e44);
+}
+
+/* ==================== ФУТЕР ==================== */
+footer {
+    text-align: center;
+    padding: 25px;
+    background-color: var(--bg-sidebar);
+    border-top: 3px solid var(--primary);
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
+footer a { color: var(--primary); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ
+   ========================================================================== */
+
+@media (min-width: 1600px) {
+    :root {
+        --sidebar-width: 100px;
+        --sidebar-expanded: 240px;
+        --section-padding-x: 100px;
+        --section-padding-y: 100px;
+    }
+    .hero-title { font-size: 96px; }
+    section { max-width: 1900px; margin-left: auto; margin-right: auto; }
+    .trainers-grid { grid-template-columns: repeat(4, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+@media (max-width: 1200px) {
+    :root {
+        --section-padding-x: 45px;
+        --section-padding-y: 70px;
+    }
+    .hero-title { font-size: clamp(38px, 5.5vw, 76px); }
+    .section-title { font-size: clamp(28px, 3.5vw, 44px); }
+    .trainers-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: repeat(2, 1fr); gap: 25px; }
+}
+
+@media (max-width: 992px) {
+    :root {
+        --sidebar-width: 85px;
+        --sidebar-expanded: 210px;
+        --section-padding-x: 35px;
+        --section-padding-y: 60px;
+    }
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+        padding-top: 50px;
+    }
+    .hero-logo { order: -1; max-width: 260px; margin: 0 auto; }
+    .hero-text { padding-left: 0; }
+    .hero-subtitle { justify-content: center; }
+    .hero-tagline {
+        position: static;
+        justify-content: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        width: 100%;
+    }
+    .hero-title { font-size: clamp(36px, 6vw, 60px); }
+    .hero-subtitle { font-size: 14px; letter-spacing: 2px; }
+    .section-title { font-size: clamp(26px, 3.5vw, 40px); }
+    .section-subtitle { font-size: 13px; letter-spacing: 3px; margin-bottom: 40px; }
+    .trainers-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .service-card { padding-bottom: 32px; }
+    .service-photo { margin-bottom: 22px; }
+    .service-card > .service-title,
+    .service-card > .service-intro,
+    .service-card > .service-features,
+    .service-card > .service-price {
+        margin-left: 26px;
+        margin-right: 26px;
+    }
+    .service-title { font-size: 17px; }
+    .service-price { font-size: 22px; }
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .schedule-legend { gap: 14px 20px; padding: 15px; }
+    .legend-item { font-size: 11px; }
+    .schedule-table th, .schedule-table td { padding: 12px 14px; font-size: 13px; }
+    .schedule-table .day { font-size: 14px; }
+    .contacts-info { gap: 18px; padding: 0 15px; }
+    .contacts-info .contact-item { flex: 1 1 calc(50% - 9px); max-width: none; }
+    .booking-modal__content { max-width: 480px; padding: 35px 28px 28px; }
+    .map-modal__content { padding: 35px 26px 26px; }
+    .map-modal__frame { height: 380px; }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 75px;
+        --sidebar-expanded: 200px;
+        --section-padding-x: 20px;
+        --section-padding-y: 50px;
+    }
+    .sidebar a { height: 48px; font-size: 10px; }
+    .sidebar a .icon { height: 48px; }
+    .sidebar a .icon svg { width: 20px; height: 20px; }
+    .sidebar-logo img { width: 45px; height: 45px; }
+    .sidebar:hover .sidebar-logo img,
+    .sidebar.open .sidebar-logo img { width: 58px; height: 58px; }
+
+    .theme-toggle { width: 68px; height: 34px; top: 14px; right: 14px; }
+    .theme-toggle .knob { width: 28px; height: 28px; }
+    body.dark-theme .theme-toggle .knob { left: calc(100% - 31px); }
+    .theme-toggle .icon-sun, .theme-toggle .icon-moon { width: 16px; height: 16px; }
+
+    section { min-height: auto; padding: 55px 20px; }
+    #hero { min-height: 100vh; min-height: 100dvh; padding: 60px 20px 30px; }
+
+    .hero-title { font-size: clamp(32px, 8vw, 46px); letter-spacing: 1px; }
+    .hero-subtitle { font-size: 12px; letter-spacing: 1.5px; gap: 10px; }
+    .hero-subtitle::before { width: 25px; height: 2px; }
+    .hero-logo { max-width: 220px; }
+
+    .section-title { font-size: 26px; letter-spacing: 2px; }
+    .section-subtitle { font-size: 11px; letter-spacing: 2px; margin-bottom: 32px; padding-bottom: 14px; }
+
+    .cta-button { padding: 15px 28px; font-size: 13px; gap: 12px; }
+
+    .trainers-grid { grid-template-columns: 1fr; gap: 18px; }
+    .trainer-photo { width: 85px; height: 85px; font-size: 38px; }
+    .trainer-name { font-size: 16px; }
+
+    .services-grid { grid-template-columns: 1fr; gap: 18px; }
+    .service-card { padding-bottom: 30px; }
+    .service-photo { aspect-ratio: 16 / 11; margin-bottom: 20px; }
+    .service-card > .service-title,
+    .service-card > .service-intro,
+    .service-card > .service-features,
+    .service-card > .service-price {
+        margin-left: 22px;
+        margin-right: 22px;
+    }
+    .service-icon { font-size: 42px; }
+    .service-title { font-size: 16px; letter-spacing: 1px; margin-bottom: 18px; }
+    .service-intro { font-size: 13px; line-height: 1.65; }
+    .service-features li { font-size: 12px; padding: 7px 0 7px 24px; }
+    .service-price { font-size: 20px; padding-top: 18px; }
+    .service-price::before { font-size: 9px; letter-spacing: 3px; }
+
+    .schedule-legend { gap: 10px 15px; padding: 12px 10px; margin-bottom: 25px; }
+    .legend-item { font-size: 9px; letter-spacing: 0.5px; }
+    .legend-dot { width: 10px; height: 10px; }
+
+    .schedule-actions { margin-bottom: 20px; }
+    .download-schedule-btn { padding: 12px 22px; font-size: 11px; letter-spacing: 1.5px; gap: 10px; }
+    .download-schedule-btn svg { width: 16px; height: 16px; }
+
+    .schedule-table th, .schedule-table td { padding: 10px 10px; font-size: 11px; }
+    .schedule-table .day { font-size: 12px; letter-spacing: 1px; }
+    .schedule-table .time { font-size: 11px; }
+    .group-tag { font-size: 9px; padding: 3px 7px; letter-spacing: 0.3px; }
+    .schedule-note { font-size: 11px; letter-spacing: 0.5px; margin-top: 18px; }
+
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .gallery-caption { font-size: 11px; padding: 10px 8px 8px; }
+
+    .events-grid { gap: 16px; }
+    .event-card { grid-template-columns: 85px 1fr; }
+    .event-date { padding: 14px 10px; }
+    .event-date .day { font-size: 30px; }
+    .event-date .month { font-size: 11px; letter-spacing: 1.5px; margin-top: 6px; }
+    .event-date .year { font-size: 9px; }
+    .event-content { padding: 16px 14px; }
+    .event-title { font-size: 14px; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .event-meta { font-size: 10px; gap: 10px; }
+    .event-desc { font-size: 12px; }
+
+    .contacts-info {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+    .contacts-info .contact-item { max-width: 100%; width: 100%; flex: 1 1 auto; padding: 22px 18px; }
+    .contact-item .value { font-size: 15px; }
+
+    .booking-modal, .map-modal { padding: 12px; }
+    .booking-modal__content { padding: 32px 22px 24px; border-radius: 3px; }
+    .booking-modal__title { font-size: 19px; letter-spacing: 1.5px; }
+    .booking-modal__subtitle { font-size: 11px; letter-spacing: 1.5px; margin-bottom: 22px; }
+    .booking-option { padding: 16px 18px; gap: 14px; }
+    .booking-option__icon { font-size: 30px; }
+    .booking-option__title { font-size: 14px; }
+    .booking-option__desc { font-size: 12px; }
+
+    .map-modal__content { padding: 30px 18px 20px; max-height: 92vh; max-height: 92dvh; }
+    .map-modal__title { font-size: 19px; letter-spacing: 1.5px; }
+    .map-modal__address { font-size: 11px; letter-spacing: 0.5px; margin-bottom: 18px; }
+    .map-modal__frame { height: 300px; margin-bottom: 16px; }
+    .map-open-btn { padding: 13px 22px; font-size: 11px; letter-spacing: 1px; gap: 8px; }
+    .map-open-btn svg { width: 16px; height: 16px; }
+
+    .call-toast {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px 18px;
+        gap: 12px;
+        bottom: 15px;
+        width: calc(100% - 24px);
+    }
+    .call-toast__icon { font-size: 26px; align-self: flex-start; }
+    .call-toast__title { font-size: 13px; }
+    .call-toast__text { font-size: 11px; }
+    .call-toast__phone { font-size: 16px; }
+    .call-toast__copy { align-self: stretch; text-align: center; padding: 12px 16px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --sidebar-width: 70px;
+        --sidebar-expanded: 190px;
+        --section-padding-x: 16px;
+        --section-padding-y: 45px;
+    }
+    section { padding: 45px 16px; }
+    #hero { padding: 55px 16px 25px; }
+    .hero-title { font-size: 30px; letter-spacing: 1px; }
+    .hero-subtitle { font-size: 10px; letter-spacing: 1px; }
+    .hero-logo { max-width: 190px; }
+    .hero-tagline { font-size: 9px; letter-spacing: 2px; gap: 10px; }
+    .section-title { font-size: 22px; }
+    .section-subtitle { font-size: 10px; letter-spacing: 1.5px; margin-bottom: 26px; }
+    .cta-button { padding: 13px 22px; font-size: 12px; letter-spacing: 1.5px; }
+    .cta-button .arrow { width: 16px; height: 16px; }
+    .trainer-card { padding: 26px 18px; }
+    .trainer-photo { width: 75px; height: 75px; font-size: 34px; }
+    .service-card { padding-bottom: 26px; }
+    .service-photo { aspect-ratio: 16 / 12; margin-bottom: 18px; }
+    .service-card > .service-title,
+    .service-card > .service-intro,
+    .service-card > .service-features,
+    .service-card > .service-price {
+        margin-left: 18px;
+        margin-right: 18px;
+    }
+    .service-icon { font-size: 38px; }
+    .schedule-table { min-width: 560px; }
+    .schedule-table th, .schedule-table td { padding: 9px 8px; font-size: 10px; }
+    .schedule-table .day { font-size: 11px; }
+    .group-tag { font-size: 8.5px; padding: 3px 5px; }
+    .event-card { grid-template-columns: 75px 1fr; }
+    .event-date .day { font-size: 26px; }
+    .event-date .month { font-size: 10px; }
+    .event-content { padding: 14px 12px; }
+    .event-title { font-size: 13px; }
+    .event-meta { font-size: 9.5px; }
+    .event-desc { font-size: 11px; }
+    .contact-item { padding: 20px 15px; }
+    .contact-item .label { font-size: 11px; }
+    .contact-item .value { font-size: 14px; }
+    .map-modal__frame { height: 260px; }
+    .theme-toggle { width: 62px; height: 30px; top: 12px; right: 12px; }
+    .theme-toggle .knob { width: 24px; height: 24px; }
+    body.dark-theme .theme-toggle .knob { left: calc(100% - 27px); }
+    .theme-toggle .icon-sun, .theme-toggle .icon-moon { width: 14px; height: 14px; }
+}
+
+@media (max-width: 400px) {
+    :root {
+        --sidebar-width: 62px;
+        --sidebar-expanded: 175px;
+        --section-padding-x: 12px;
+        --section-padding-y: 38px;
+    }
+    .sidebar a { height: 44px; font-size: 9px; }
+    .sidebar a .icon { height: 44px; }
+    .sidebar a .icon svg { width: 18px; height: 18px; }
+    .sidebar-logo img { width: 38px; height: 38px; }
+    .sidebar:hover .sidebar-logo img,
+    .sidebar.open .sidebar-logo img { width: 48px; height: 48px; }
+    .theme-toggle { width: 56px; height: 28px; top: 10px; right: 10px; }
+    .theme-toggle .knob { width: 22px; height: 22px; }
+    body.dark-theme .theme-toggle .knob { left: calc(100% - 25px); }
+    .theme-toggle .icon-sun, .theme-toggle .icon-moon { width: 12px; height: 12px; }
+    section { padding: 38px 12px; }
+    #hero { padding: 45px 12px 20px; }
+    .hero-title { font-size: 26px; }
+    .hero-logo { max-width: 160px; }
+    .hero-subtitle { font-size: 9px; letter-spacing: 0.5px; }
+    .section-title { font-size: 20px; letter-spacing: 1.5px; }
+    .section-subtitle { font-size: 9px; letter-spacing: 1px; }
+    .cta-button { padding: 12px 18px; font-size: 11px; letter-spacing: 1px; gap: 8px; }
+    .cta-button .arrow { width: 14px; height: 14px; }
+    .trainer-card { padding: 22px 15px; }
+    .trainer-photo { width: 68px; height: 68px; font-size: 30px; }
+    .trainer-name { font-size: 15px; }
+    .service-card { padding-bottom: 22px; }
+    .service-photo { margin-bottom: 16px; }
+    .service-card > .service-title,
+    .service-card > .service-intro,
+    .service-card > .service-features,
+    .service-card > .service-price {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    .service-title { font-size: 15px; }
+    .service-price { font-size: 18px; }
+    .schedule-table { min-width: 520px; }
+    .schedule-table th, .schedule-table td { padding: 8px 6px; font-size: 9.5px; }
+    .schedule-table .day { font-size: 10px; }
+    .group-tag { font-size: 8px; padding: 2px 4px; letter-spacing: 0; }
+    .event-card { grid-template-columns: 65px 1fr; }
+    .event-date .day { font-size: 22px; }
+    .event-date .month { font-size: 9px; letter-spacing: 1px; }
+    .event-date .year { font-size: 8px; }
+    .event-content { padding: 12px 10px; }
+    .event-title { font-size: 12px; }
+    .event-meta { font-size: 9px; gap: 8px; }
+    .event-desc { font-size: 10.5px; line-height: 1.5; }
+    .booking-modal__content { padding: 28px 16px 20px; }
+    .booking-modal__title { font-size: 17px; }
+    .booking-modal__subtitle { font-size: 10px; }
+    .booking-option { padding: 14px 14px; gap: 12px; }
+    .booking-option__icon { font-size: 26px; }
+    .booking-option__title { font-size: 13px; }
+    .booking-option__desc { font-size: 11px; }
+    .map-modal__content { padding: 26px 14px 16px; }
+    .map-modal__title { font-size: 17px; }
+    .map-modal__address { font-size: 10px; }
+    .map-modal__frame { height: 220px; }
+    .call-toast { padding: 14px 14px; }
+    .call-toast__phone { font-size: 15px; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    section { min-height: auto; padding: 40px 30px; }
+    #hero {
+        min-height: auto;
+        padding: 40px 30px 20px;
+        grid-template-columns: 1fr 1fr;
+        text-align: left;
+        gap: 20px;
+    }
+    .hero-logo { order: 0; max-width: 180px; }
+    .hero-text { padding-left: 0; }
+    .hero-subtitle { justify-content: flex-start; }
+    .hero-tagline { position: static; margin-top: 15px; }
+    .hero-title { font-size: clamp(28px, 6vw, 44px); }
+    .sidebar { width: 70px; }
+    .sidebar:hover, .sidebar.open { width: 200px; }
+    .sidebar a { height: 42px; }
+    .sidebar a .icon { height: 42px; }
+    .sidebar-logo img { width: 38px; height: 38px; }
+    .sidebar:hover .sidebar-logo img,
+    .sidebar.open .sidebar-logo img { width: 50px; height: 50px; }
+    .theme-toggle { top: 10px; right: 12px; width: 62px; height: 30px; }
+    .theme-toggle .knob { width: 24px; height: 24px; }
+    body.dark-theme .theme-toggle .knob { left: calc(100% - 27px); }
+    .booking-modal__content { padding: 24px 24px 20px; }
+    .booking-modal__title { font-size: 18px; margin-bottom: 4px; }
+    .booking-modal__subtitle { margin-bottom: 16px; }
+    .booking-option { padding: 12px 16px; }
+    .booking-option__icon { font-size: 26px; }
+    .map-modal__content { padding: 25px 25px 20px; max-height: 94dvh; }
+    .map-modal__frame { height: 220px; }
+    .map-modal__title { font-size: 20px; }
+    .map-modal__address { margin-bottom: 14px; }
+    .call-toast { flex-direction: row; padding: 12px 16px; gap: 12px; bottom: 10px; }
+    .call-toast__copy { padding: 8px 14px; font-size: 10px; }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) and (orientation: landscape) {
+    #hero {
+        grid-template-columns: 1.1fr 1fr;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+    .hero-logo { order: 0; max-width: 300px; }
+    .hero-text { padding-left: 10px; }
+    .hero-tagline { position: absolute; bottom: 25px; right: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .trainer-card, .service-card, .event-card, .contact-item, .schedule-wrapper {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    body.dark-theme .trainer-card,
+    body.dark-theme .service-card,
+    body.dark-theme .event-card,
+    body.dark-theme .contact-item,
+    body.dark-theme .schedule-wrapper {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+}
+
+@media (max-width: 768px) {
+    #hero,
+    #trainers,
+    #services,
+    #schedule,
+    #gallery,
+    #events,
+    #contacts {
+        background-position: center center;
+    }
+    #hero { background-position: 62% center; }
+    #trainers,
+    #events { background-position: center center; }
+}
+
+
+/* ============================================================
+   ГАЛЕРЕЯ — 6 ЯЧЕЕК + ALBUM / macOS-STYLE SPRING ANIMATION
+   ============================================================ */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(220px, 1fr));
+    gap: 18px;
+    max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.gallery-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    min-height: 220px;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+    background: rgba(16, 16, 16, 0.52);
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    isolation: isolate;
+    box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.35s ease;
+}
+
+.gallery-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.12), transparent 35%),
+        linear-gradient(180deg, transparent 42%, rgba(0,0,0,0.70) 100%);
+    pointer-events: none;
+    opacity: 0.92;
+}
+
+.gallery-item:hover {
+    border-color: rgba(255, 106, 0, 0.65);
+    transform: translateY(-6px) scale(1.015);
+    box-shadow:
+        0 24px 55px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(255, 106, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.gallery-item:focus-visible {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow:
+        0 0 0 3px rgba(255, 106, 0, 0.25),
+        0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+.gallery-item img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.001);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.055);
+    filter: saturate(1.05) contrast(1.03);
+}
+
+.gallery-cell-overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 18px 17px;
+}
+
+.gallery-cell-title {
+    color: #fff;
+    font-family: 'Russo One', sans-serif;
+    font-size: 15px;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+}
+
+.gallery-cell-open {
+    color: rgba(255,255,255,0.82);
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover .gallery-cell-open,
+.gallery-item:focus-visible .gallery-cell-open {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== ALBUM WINDOW ==================== */
+.gallery-album {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 26px;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.gallery-album.active {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.gallery-album.is-closing {
+    visibility: visible;
+    pointer-events: none;
+}
+
+.gallery-album__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 7, 7, 0.46);
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
+    transition:
+        opacity 0.48s ease,
+        backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-album.active .gallery-album__backdrop {
+    opacity: 1;
+    backdrop-filter: blur(18px) saturate(120%);
+    -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+
+.gallery-album.is-closing .gallery-album__backdrop {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
+}
+
+.gallery-album__window {
+    --album-start-x: 0px;
+    --album-start-y: 0px;
+    --album-start-scale: 0.18;
+
+    position: relative;
+    width: min(1180px, calc(100vw - 52px));
+    max-height: min(88vh, 900px);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 26px;
+    background: rgba(26, 26, 26, 0.76);
+    backdrop-filter: blur(30px) saturate(145%);
+    -webkit-backdrop-filter: blur(30px) saturate(145%);
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.46),
+        0 8px 35px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    transform-origin: center center;
+    transform: translate3d(var(--album-start-x), var(--album-start-y), 0) scale(var(--album-start-scale));
+    opacity: 0;
+    transition:
+        transform 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.42s ease,
+        border-color 0.35s ease;
+    will-change: transform, opacity;
+}
+
+.gallery-album.active .gallery-album__window {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+}
+
+.gallery-album.is-closing .gallery-album__window {
+    transform: translate3d(var(--album-start-x), var(--album-start-y), 0) scale(var(--album-start-scale));
+    opacity: 0;
+}
+
+.gallery-album__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 22px 16px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+}
+
+.gallery-album__heading {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.gallery-album__eyebrow {
+    width: 100%;
+    color: var(--primary);
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+.gallery-album__heading h3 {
+    color: #fff;
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(20px, 2vw, 27px);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.gallery-album__count {
+    color: rgba(255,255,255,0.55);
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.gallery-album__close {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), background 0.25s ease, border-color 0.25s ease;
+}
+
+.gallery-album__close:hover {
+    transform: rotate(90deg) scale(1.05);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.22);
+}
+
+.gallery-album__close span {
+    position: absolute;
+    left: 10px;
+    top: 18px;
+    width: 16px;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 999px;
+}
+.gallery-album__close span:first-child { transform: rotate(45deg); }
+.gallery-album__close span:last-child { transform: rotate(-45deg); }
+
+.gallery-album__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding: 16px;
+    overflow: auto;
+    max-height: calc(min(88vh, 900px) - 86px);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+
+.gallery-album__grid::-webkit-scrollbar { width: 8px; height: 8px; }
+.gallery-album__grid::-webkit-scrollbar-track { background: transparent; }
+.gallery-album__grid::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.16);
+    border-radius: 999px;
+}
+
+.gallery-album__photo {
+    position: relative;
+    min-height: 190px;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 15px;
+    background: rgba(0,0,0,0.22);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+    transition:
+        opacity 0.42s ease,
+        transform 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.25s ease;
+}
+
+.gallery-album.active .gallery-album__photo {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.gallery-album.active .gallery-album__photo:nth-child(1) { transition-delay: 0.10s; }
+.gallery-album.active .gallery-album__photo:nth-child(2) { transition-delay: 0.14s; }
+.gallery-album.active .gallery-album__photo:nth-child(3) { transition-delay: 0.18s; }
+.gallery-album.active .gallery-album__photo:nth-child(4) { transition-delay: 0.22s; }
+.gallery-album.active .gallery-album__photo:nth-child(5) { transition-delay: 0.26s; }
+.gallery-album.active .gallery-album__photo:nth-child(6) { transition-delay: 0.30s; }
+.gallery-album.active .gallery-album__photo:nth-child(7) { transition-delay: 0.34s; }
+.gallery-album.active .gallery-album__photo:nth-child(8) { transition-delay: 0.38s; }
+.gallery-album.active .gallery-album__photo:nth-child(9) { transition-delay: 0.42s; }
+
+.gallery-album__photo:hover {
+    border-color: rgba(255,106,0,0.56);
+}
+
+.gallery-album__photo img {
+    width: 100%;
+    height: 100%;
+    min-height: 190px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.72s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease;
+}
+
+.gallery-album__photo:hover img {
+    transform: scale(1.045);
+    filter: saturate(1.04) contrast(1.02);
+}
+
+/* Подписи внутри ячеек альбома — скрыты по твоей просьбе */
+.gallery-album__photo-label {
+    display: none;
+}
+
+.gallery-album__photo::after {
+    display: none;
+}
+
+/* ==================== LIGHT THEME ALBUM ==================== */
+body:not(.dark-theme) .gallery-album__window {
+    background: rgba(245,245,245,0.78);
+    border-color: rgba(0,0,0,0.08);
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.22),
+        0 8px 35px rgba(0,0,0,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.70);
+}
+
+body:not(.dark-theme) .gallery-album__header {
+    border-bottom-color: rgba(0,0,0,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.46), rgba(255,255,255,0));
+}
+
+body:not(.dark-theme) .gallery-album__heading h3 { color: #111; }
+body:not(.dark-theme) .gallery-album__count { color: rgba(0,0,0,0.46); }
+body:not(.dark-theme) .gallery-album__close {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.08);
+}
+body:not(.dark-theme) .gallery-album__close span { background: #111; }
+
+body:not(.dark-theme) .gallery-album__photo {
+    background: rgba(255,255,255,0.36);
+    border-color: rgba(0,0,0,0.07);
+}
+
+/* ==================== MOBILE ==================== */
+@media (max-width: 900px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(3, minmax(190px, 1fr));
+        gap: 12px;
+    }
+    .gallery-item {
+        min-height: 190px;
+        border-radius: 14px;
+    }
+    .gallery-cell-title { font-size: 12px; }
+    .gallery-cell-open { display: none; }
+
+    .gallery-album { padding: 12px; }
+    .gallery-album__window {
+        width: calc(100vw - 24px);
+        max-height: 92vh;
+        border-radius: 20px;
+    }
+    .gallery-album__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-height: calc(92vh - 82px);
+        padding: 12px;
+    }
+    .gallery-album__photo,
+    .gallery-album__photo img {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 560px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6, minmax(210px, auto));
+    }
+    .gallery-item {
+        min-height: 210px;
+        aspect-ratio: 16 / 10;
+    }
+    .gallery-album__heading { gap: 4px 8px; }
+    .gallery-album__heading h3 { font-size: 17px; }
+    .gallery-album__count { font-size: 9px; }
+    .gallery-album__grid { grid-template-columns: 1fr; }
+    .gallery-album__photo,
+    .gallery-album__photo img { min-height: 180px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery-item,
+    .gallery-item img,
+    .gallery-cell-open,
+    .gallery-album__window,
+    .gallery-album__photo,
+    .gallery-album__photo img,
+    .gallery-album__backdrop,
+    .gallery-album__close {
+        transition: none !important;
+    }
+}
+
+
+/* ============================================================
+   РАСПИСАНИЕ ПО ТРЕНЕРАМ
+   ============================================================ */
+
+.schedule-trainers {
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.schedule-trainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.schedule-trainer__header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    padding: 0 4px;
+    flex-wrap: wrap;
+}
+
+.schedule-trainer__header::before {
+    content: "";
+    width: 6px;
+    height: 30px;
+    background: linear-gradient(180deg, #ff8c1a, var(--primary-dark));
+    transform: skewX(-12deg);
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(255, 106, 0, 0.45);
+}
+
+.schedule-trainer__name {
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transform: skewX(-4deg);
+    line-height: 1.1;
+}
+
+.schedule-trainer__spec {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-style: italic;
+    padding-left: 14px;
+    border-left: 1px solid var(--border);
+    line-height: 1.1;
+}
+
+.schedule-trainer .schedule-wrapper {
+    max-width: 100%;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .schedule-trainers { gap: 30px; }
+    .schedule-trainer__name { font-size: 16px; letter-spacing: 1px; }
+    .schedule-trainer__spec { font-size: 10px; letter-spacing: 1.5px; padding-left: 10px; }
+    .schedule-trainer__header::before { height: 24px; width: 5px; }
+}
+
+@media (max-width: 560px) {
+    .schedule-trainers { gap: 24px; }
+    .schedule-trainer__header { gap: 10px; margin-bottom: 10px; }
+    .schedule-trainer__name { font-size: 14px; }
+    .schedule-trainer__spec {
+        padding-left: 0;
+        border-left: none;
+        width: 100%;
+        padding-top: 2px;
+    }
+}
+
+
+/* ============================================================
+   FINAL GLASS SYSTEM — LIGHT + DARK
+   ============================================================ */
+
+:root {
+    --glass-light-bg: rgba(255, 255, 255, 0.30);
+    --glass-light-bg-strong: rgba(255, 255, 255, 0.40);
+    --glass-light-border: rgba(255, 255, 255, 0.72);
+    --glass-dark-bg: rgba(18, 18, 18, 0.38);
+    --glass-dark-bg-strong: rgba(18, 18, 18, 0.48);
+    --glass-dark-border: rgba(255, 255, 255, 0.12);
+    --glass-blur: 18px;
+    --glass-saturation: 125%;
+}
+
+/* ==================== LIGHT THEME — ОСЛАБЛЯЕМ БЕЛУЮ ПЛЁНКУ ==================== */
+
+body:not(.dark-theme) #hero {
+    background-image:
+        linear-gradient(90deg,
+            rgba(255,255,255,0.28) 0%,
+            rgba(255,255,255,0.14) 48%,
+            rgba(255,255,255,0.26) 100%),
+        var(--hero-photo);
+}
+
+body:not(.dark-theme) #trainers {
+    background-image:
+        linear-gradient(90deg,
+            rgba(255,255,255,0.34) 0%,
+            rgba(255,255,255,0.18) 50%,
+            rgba(255,255,255,0.32) 100%),
+        var(--trainers-photo);
+}
+
+body:not(.dark-theme) #services,
+body:not(.dark-theme) #schedule,
+body:not(.dark-theme) #gallery,
+body:not(.dark-theme) #contacts {
+    background-image:
+        linear-gradient(90deg,
+            rgba(255,255,255,0.42) 0%,
+            rgba(255,255,255,0.24) 50%,
+            rgba(255,255,255,0.42) 100%),
+        var(--common-photo);
+}
+
+body:not(.dark-theme) #events {
+    background-image:
+        linear-gradient(90deg,
+            rgba(255,255,255,0.30) 0%,
+            rgba(255,255,255,0.14) 48%,
+            rgba(255,255,255,0.28) 100%),
+        var(--events-photo);
+}
+
+/* ==================== LIGHT THEME — СТЕКЛО ==================== */
+
+body:not(.dark-theme) .trainer-card,
+body:not(.dark-theme) .service-card,
+body:not(.dark-theme) .schedule-legend,
+body:not(.dark-theme) .schedule-wrapper,
+body:not(.dark-theme) .event-card,
+body:not(.dark-theme) .contact-item,
+body:not(.dark-theme) .gallery-item {
+    background:
+        linear-gradient(135deg,
+            rgba(255,255,255,0.62) 0%,
+            rgba(255,255,255,0.30) 45%,
+            rgba(255,255,255,0.52) 100%) !important;
+    backdrop-filter: blur(22px) saturate(165%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(165%) brightness(1.05) !important;
+    border: 1px solid rgba(255,255,255,0.85) !important;
+    box-shadow:
+        0 10px 34px rgba(31, 38, 135, 0.14),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255,255,255,0.95),
+        inset 0 -1px 0 rgba(255,255,255,0.35),
+        inset 1px 0 0 rgba(255,255,255,0.55),
+        inset -1px 0 0 rgba(255,255,255,0.55) !important;
+}
+
+body:not(.dark-theme) .trainer-card::before,
+body:not(.dark-theme) .service-card::before,
+body:not(.dark-theme) .event-card::before,
+body:not(.dark-theme) .contact-item::before,
+body:not(.dark-theme) .schedule-legend::before,
+body:not(.dark-theme) .schedule-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.95) 22%,
+        rgba(255,255,255,0.95) 78%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+body:not(.dark-theme) .trainer-card,
+body:not(.dark-theme) .service-card,
+body:not(.dark-theme) .event-card,
+body:not(.dark-theme) .contact-item,
+body:not(.dark-theme) .schedule-legend,
+body:not(.dark-theme) .schedule-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+body:not(.dark-theme) .trainer-card:hover,
+body:not(.dark-theme) .service-card:hover,
+body:not(.dark-theme) .event-card:hover,
+body:not(.dark-theme) .contact-item:hover {
+    border-color: rgba(255, 106, 0, 0.55) !important;
+    box-shadow:
+        0 18px 44px rgba(255, 106, 0, 0.22),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(255,255,255,0.40),
+        inset 1px 0 0 rgba(255,255,255,0.60),
+        inset -1px 0 0 rgba(255,255,255,0.60) !important;
+}
+
+/* LIGHT — модалки */
+body:not(.dark-theme) .booking-modal__content,
+body:not(.dark-theme) .map-modal__content,
+body:not(.dark-theme) .call-toast {
+    background:
+        linear-gradient(135deg,
+            rgba(255,255,255,0.78) 0%,
+            rgba(255,255,255,0.55) 50%,
+            rgba(255,255,255,0.72) 100%) !important;
+    backdrop-filter: blur(28px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(170%) !important;
+    border: 1px solid rgba(255,255,255,0.90) !important;
+    box-shadow:
+        0 30px 80px rgba(31, 38, 135, 0.22),
+        0 10px 30px rgba(0, 0, 0, 0.10),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(255,255,255,0.40) !important;
+}
+
+body:not(.dark-theme) .booking-option {
+    background:
+        linear-gradient(135deg,
+            rgba(255,255,255,0.55) 0%,
+            rgba(255,255,255,0.28) 100%) !important;
+    backdrop-filter: blur(14px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+    border: 1px solid rgba(255,255,255,0.75) !important;
+    box-shadow:
+        0 4px 14px rgba(31, 38, 135, 0.08),
+        inset 0 1px 0 rgba(255,255,255,0.85) !important;
+}
+
+body:not(.dark-theme) .booking-option:hover {
+    border-color: rgba(255, 106, 0, 0.55) !important;
+    background:
+        linear-gradient(135deg,
+            rgba(255, 245, 235, 0.75) 0%,
+            rgba(255, 235, 215, 0.50) 100%) !important;
+    box-shadow:
+        0 10px 28px rgba(255, 106, 0, 0.22),
+        inset 0 1px 0 rgba(255,255,255,1) !important;
+}
+
+body:not(.dark-theme) .section-title {
+    text-shadow:
+        0 1px 0 rgba(255,255,255,0.85),
+        0 2px 12px rgba(255,255,255,0.55),
+        2px 2px 0 rgba(0,0,0,0.08);
+}
+
+body:not(.dark-theme) .section-subtitle {
+    text-shadow: 0 1px 6px rgba(255,255,255,0.85);
+}
+
+body:not(.dark-theme) .hero-subtitle,
+body:not(.dark-theme) .hero-tagline {
+    text-shadow: 0 1px 6px rgba(255,255,255,0.7);
+}
+
+body:not(.dark-theme) .schedule-table th {
+    background:
+        linear-gradient(135deg,
+            rgba(255, 140, 26, 0.92) 0%,
+            rgba(255, 106, 0, 0.88) 100%) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 -1px 0 rgba(0,0,0,0.10);
+}
+
+body:not(.dark-theme) .sidebar {
+    background: rgba(255, 255, 255, 0.34) !important;
+    backdrop-filter: blur(22px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.65) !important;
+    box-shadow:
+        6px 0 30px rgba(31, 38, 135, 0.10),
+        inset -1px 0 0 rgba(255, 255, 255, 0.45) !important;
+}
+
+body:not(.dark-theme) footer {
+    background: rgba(255, 255, 255, 0.42) !important;
+    backdrop-filter: blur(18px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.65) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        0 -6px 24px rgba(31, 38, 135, 0.06);
+}
+
+
+/* ==================== DARK THEME — ОСЛАБЛЯЕМ ЧЁРНУЮ ПЛЁНКУ ==================== */
+
+body.dark-theme #hero {
+    background-image:
+        linear-gradient(90deg,
+            rgba(5,5,5,0.52) 0%,
+            rgba(5,5,5,0.30) 48%,
+            rgba(5,5,5,0.50) 100%),
+        var(--hero-photo);
+}
+
+body.dark-theme #trainers {
+    background-image:
+        linear-gradient(90deg,
+            rgba(5,5,5,0.54) 0%,
+            rgba(5,5,5,0.32) 50%,
+            rgba(5,5,5,0.52) 100%),
+        var(--trainers-photo);
+}
+
+body.dark-theme #services,
+body.dark-theme #schedule,
+body.dark-theme #gallery,
+body.dark-theme #contacts {
+    background-image:
+        linear-gradient(90deg,
+            rgba(5,5,5,0.62) 0%,
+            rgba(5,5,5,0.42) 50%,
+            rgba(5,5,5,0.62) 100%),
+        var(--common-photo);
+}
+
+body.dark-theme #events {
+    background-image:
+        linear-gradient(90deg,
+            rgba(5,5,5,0.52) 0%,
+            rgba(5,5,5,0.30) 48%,
+            rgba(5,5,5,0.50) 100%),
+        var(--events-photo);
+}
+
+/* ==================== DARK THEME — СТЕКЛО ==================== */
+
+body.dark-theme .trainer-card,
+body.dark-theme .service-card,
+body.dark-theme .schedule-legend,
+body.dark-theme .schedule-wrapper,
+body.dark-theme .event-card,
+body.dark-theme .contact-item,
+body.dark-theme .gallery-item {
+    background:
+        linear-gradient(135deg,
+            rgba(44,44,44,0.60) 0%,
+            rgba(16,16,16,0.34) 45%,
+            rgba(34,34,34,0.54) 100%) !important;
+    backdrop-filter: blur(22px) saturate(155%) brightness(1.07) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(155%) brightness(1.07) !important;
+    border: 1px solid rgba(255,255,255,0.10) !important;
+    box-shadow:
+        0 10px 34px rgba(0, 0, 0, 0.50),
+        0 2px 8px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+        inset 1px 0 0 rgba(255, 255, 255, 0.06),
+        inset -1px 0 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+body.dark-theme .trainer-card::before,
+body.dark-theme .service-card::before,
+body.dark-theme .event-card::before,
+body.dark-theme .contact-item::before,
+body.dark-theme .schedule-legend::before,
+body.dark-theme .schedule-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.35) 22%,
+        rgba(255, 255, 255, 0.35) 78%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+body.dark-theme .trainer-card,
+body.dark-theme .service-card,
+body.dark-theme .event-card,
+body.dark-theme .contact-item,
+body.dark-theme .schedule-legend,
+body.dark-theme .schedule-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+body.dark-theme .trainer-card:hover,
+body.dark-theme .service-card:hover,
+body.dark-theme .event-card:hover,
+body.dark-theme .contact-item:hover {
+    border-color: rgba(255, 106, 0, 0.50) !important;
+    box-shadow:
+        0 18px 44px rgba(255, 106, 0, 0.28),
+        0 4px 14px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -1px 0 rgba(255, 106, 0, 0.14),
+        inset 1px 0 0 rgba(255, 255, 255, 0.08),
+        inset -1px 0 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+/* DARK — модалки */
+body.dark-theme .booking-modal__content,
+body.dark-theme .map-modal__content,
+body.dark-theme .call-toast {
+    background:
+        linear-gradient(135deg,
+            rgba(48,48,48,0.78) 0%,
+            rgba(18,18,18,0.60) 50%,
+            rgba(40,40,40,0.72) 100%) !important;
+    backdrop-filter: blur(28px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.65),
+        0 10px 30px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.45) !important;
+}
+
+body.dark-theme .booking-option {
+    background:
+        linear-gradient(135deg,
+            rgba(50,50,50,0.55) 0%,
+            rgba(24,24,24,0.32) 100%) !important;
+    backdrop-filter: blur(14px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+}
+
+body.dark-theme .booking-option:hover {
+    border-color: rgba(255, 106, 0, 0.55) !important;
+    background:
+        linear-gradient(135deg,
+            rgba(70, 40, 20, 0.70) 0%,
+            rgba(35, 20, 10, 0.55) 100%) !important;
+    box-shadow:
+        0 10px 28px rgba(255, 106, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+body.dark-theme .section-title {
+    text-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.65),
+        0 2px 14px rgba(0, 0, 0, 0.55),
+        2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+body.dark-theme .section-subtitle {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75);
+}
+
+body.dark-theme .hero-subtitle,
+body.dark-theme .hero-tagline {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.60);
+}
+
+body.dark-theme .schedule-table th {
+    background:
+        linear-gradient(135deg,
+            rgba(255, 140, 26, 0.94) 0%,
+            rgba(204, 68, 0, 0.90) 100%) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+body.dark-theme .sidebar {
+    background: rgba(14, 14, 14, 0.42) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
+    box-shadow:
+        6px 0 30px rgba(0, 0, 0, 0.45),
+        inset -1px 0 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+body.dark-theme footer {
+    background: rgba(14, 14, 14, 0.42) !important;
+    backdrop-filter: blur(18px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 -6px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ==================== FALLBACK — БЕЗ backdrop-filter ==================== */
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    body:not(.dark-theme) .trainer-card,
+    body:not(.dark-theme) .service-card,
+    body:not(.dark-theme) .schedule-legend,
+    body:not(.dark-theme) .schedule-wrapper,
+    body:not(.dark-theme) .event-card,
+    body:not(.dark-theme) .contact-item,
+    body:not(.dark-theme) .gallery-item {
+        background: rgba(255, 255, 255, 0.82) !important;
+    }
+
+    body:not(.dark-theme) .booking-modal__content,
+    body:not(.dark-theme) .map-modal__content,
+    body:not(.dark-theme) .call-toast {
+        background: rgba(255, 255, 255, 0.94) !important;
+    }
+
+    body.dark-theme .trainer-card,
+    body.dark-theme .service-card,
+    body.dark-theme .schedule-legend,
+    body.dark-theme .schedule-wrapper,
+    body.dark-theme .event-card,
+    body.dark-theme .contact-item,
+    body.dark-theme .gallery-item {
+        background: rgba(20, 20, 20, 0.88) !important;
+    }
+
+    body.dark-theme .booking-modal__content,
+    body.dark-theme .map-modal__content,
+    body.dark-theme .call-toast {
+        background: rgba(22, 22, 22, 0.96) !important;
+    }
+}
+
+
+/* ============================================================
+   ФИНАЛЬНЫЕ ПРАВКИ — ЛОГОТИП И ТАБЛИЦА
+   ============================================================ */
+
+.sidebar-logo img,
+.hero-logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    object-fit: contain;
+}
+
+.schedule-table,
+.schedule-table tbody,
+.schedule-table tr,
+.schedule-table td {
+    background: transparent !important;
+}
+
+
+/* ============================================================
+   КНОПКА «ПРАЙС» + МОДАЛЬНОЕ ОКНО С ПРАЙСОМ
+   (spring-анимация как у альбома галереи)
+   ============================================================ */
+
+/* ==================== КНОПКА ПРАЙСА ==================== */
+
+.services-actions {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto 0;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.price-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 36px;
+    background: linear-gradient(135deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
+}
+
+.price-button:hover {
+    transform: translateX(5px);
+    box-shadow: 0 12px 30px rgba(255, 106, 0, 0.55);
+}
+
+.price-button:active {
+    transform: translateX(5px) scale(0.97);
+}
+
+.price-button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+
+/* ==================== МОДАЛЬНОЕ ОКНО ПРАЙСА — SPRING POPUP ==================== */
+
+.price-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 26px;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.price-modal.active {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Затемнение + размытие фона */
+.price-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 7, 7, 0.55);
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
+    transition:
+        opacity 0.48s ease,
+        backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.price-modal.active .price-modal__overlay {
+    opacity: 1;
+    backdrop-filter: blur(18px) saturate(120%);
+    -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+
+/* Само окно — пружинный вылет */
+.price-modal__content {
+    position: relative;
+    width: fit-content;
+    max-width: min(900px, calc(100vw - 52px));
+    max-height: calc(100vh - 80px);
+    max-height: calc(100dvh - 80px);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 26px;
+    background:
+        linear-gradient(135deg,
+            rgba(255,255,255,0.82) 0%,
+            rgba(255,255,255,0.62) 50%,
+            rgba(255,255,255,0.78) 100%);
+    backdrop-filter: blur(30px) saturate(145%);
+    -webkit-backdrop-filter: blur(30px) saturate(145%);
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.40),
+        0 8px 35px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+    padding: 70px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.72) translateY(28px);
+    opacity: 0;
+    transition:
+        transform 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.42s ease,
+        border-color 0.35s ease;
+    will-change: transform, opacity;
+    transform-origin: center center;
+}
+
+body.dark-theme .price-modal__content {
+    background:
+        linear-gradient(135deg,
+            rgba(48,48,48,0.82) 0%,
+            rgba(18,18,18,0.65) 50%,
+            rgba(40,40,40,0.78) 100%);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.65),
+        0 8px 35px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.price-modal.active .price-modal__content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* Заголовок */
+.price-modal__title {
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(22px, 2.4vw, 30px);
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 20px;
+    transform: skewX(-4deg);
+}
+
+/* Рамка под фото */
+.price-modal__frame {
+    position: relative;
+    width: auto;
+    max-width: 100%;
+    flex: 0 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+body.dark-theme .price-modal__frame {
+    border-color: rgba(255,255,255,0.10);
+    background: rgba(0,0,0,0.25);
+}
+
+.price-modal__frame::-webkit-scrollbar { width: 8px; }
+.price-modal__frame::-webkit-scrollbar-track { background: transparent; }
+.price-modal__frame::-webkit-scrollbar-thumb {
+    background: rgba(255,106,0,0.35);
+    border-radius: 999px;
+}
+
+.price-modal__frame img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 190px);
+    max-height: calc(100dvh - 190px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+/* Кнопка-крестик */
+.price-modal__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    z-index: 3;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.25s ease,
+                border-color 0.25s ease;
+}
+
+body.dark-theme .price-modal__close {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.price-modal__close:hover {
+    transform: rotate(90deg) scale(1.08);
+    background: rgba(255, 106, 0, 0.20);
+    border-color: rgba(255, 106, 0, 0.65);
+}
+
+.price-modal__close span {
+    position: absolute;
+    left: 11px;
+    top: 19px;
+    width: 16px;
+    height: 1.8px;
+    background: var(--text-main);
+    border-radius: 999px;
+}
+
+body.dark-theme .price-modal__close span { background: #fff; }
+
+.price-modal__close span:first-child { transform: rotate(45deg); }
+.price-modal__close span:last-child  { transform: rotate(-45deg); }
+
+
+/* ==================== АДАПТИВ ==================== */
+
+@media (max-width: 768px) {
+    .services-actions { margin-top: 28px; }
+
+    .price-button {
+        padding: 13px 26px;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        gap: 10px;
+    }
+    .price-button svg { width: 16px; height: 16px; }
+
+    .price-modal { padding: 10px; }
+
+    .price-modal__content {
+        padding: 58px 12px 12px;
+        max-width: calc(100vw - 20px);
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 18px;
+    }
+
+    .price-modal__frame img {
+        max-height: calc(100vh - 150px);
+        max-height: calc(100dvh - 150px);
+    }
+
+    .price-modal__title {
+    position: absolute;
+    top: 22px;
+    left: 30px;
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(20px, 2.2vw, 26px);
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: skewX(-4deg);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 3;
+    white-space: nowrap;
+    }
+
+    .price-modal__close {
+        top: 12px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
+    }
+    .price-modal__close span {
+        left: 9px;
+        top: 16px;
+        width: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .price-button {
+        padding: 12px 22px;
+        font-size: 11px;
+        letter-spacing: 1px;
+    }
+    .price-modal__content { padding: 52px 8px 8px; }
+    .price-modal__frame img { max-height: calc(100vh - 130px); }
+    .price-modal__title { font-size: 15px; left: 16px; }
+    .price-modal__close { top: 10px; right: 10px; width: 30px; height: 30px; }
+    .price-modal__close span { left: 8px; top: 14px; width: 12px; }
+}
+
+@media (max-width: 400px) {
+    .price-button {
+        padding: 12px 22px;
+        font-size: 11px;
+        letter-spacing: 1px;
+    }
+    .price-modal__content { padding: 16px; }
+    .price-modal__title { font-size: 17px; }
+}
+
+
+/* ==================== ЗАПРЕТ АНИМАЦИИ ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .price-modal__content,
+    .price-modal__overlay {
+        transition: none !important;
+    }
+}
+
+/* ============================================================
+   РАВНОМЕРНОЕ РАСПРЕДЕЛЕНИЕ ПУНКТОВ МЕНЮ ПО САЙДБАРУ
+   ============================================================ */
+
+.sidebar ul {
+    justify-content: space-evenly;
+    gap: 0;
+}
+
+/* Каждый пункт растягивается и центрирует иконку по вертикали */
+.sidebar ul li {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 52px;
+}
+
+.sidebar ul li > a {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 52px;
+}
+
+.sidebar a .icon {
+    height: auto;
+    min-height: 52px;
+}
+
+/* ============================================================
+   УВЕЛИЧЕННЫЕ ИКОНКИ И ТЕКСТ В НАВИГАЦИИ
+   ============================================================ */
+
+/* Иконки */
+.sidebar a .icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+/* Текст */
+.sidebar a {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+/* Немного больше отступ справа у текста */
+.sidebar a .label {
+    padding-right: 18px;
+}
+
+/* Чуть выше строки, чтобы влезли крупные иконки */
+.sidebar a,
+.sidebar a .icon {
+    min-height: 56px;
+    height: 56px;
+}
+
+/* ==================== АДАПТИВ ==================== */
+
+@media (max-width: 768px) {
+    .sidebar a .icon svg {
+        width: 22px;
+        height: 22px;
+    }
+    .sidebar a {
+        font-size: 11px;
+        height: 52px;
+        min-height: 52px;
+    }
+    .sidebar a .icon {
+        height: 52px;
+        min-height: 52px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar a .icon svg {
+        width: 20px;
+        height: 20px;
+    }
+    .sidebar a {
+        font-size: 10px;
+        height: 48px;
+        min-height: 48px;
+    }
+    .sidebar a .icon {
+        height: 48px;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 400px) {
+    .sidebar a .icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    .sidebar a {
+        font-size: 9px;
+        height: 44px;
+        min-height: 44px;
+    }
+    .sidebar a .icon {
+        height: 44px;
+        min-height: 44px;
+    }
+}
+
+/* ==================== СДВИГ ЛОГО В HERO ==================== */
+
+.hero-logo {
+    transform: translate(-40px, -45px) !important;
+}
+
+@media (max-width: 992px) {
+    .hero-logo {
+        transform: translateX(-20px) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-logo {
+        transform: none !important;
+    }
+}
+/* ============================================================
+   КНОПКА «ЗАПИСАТЬСЯ» В КАРТОЧКАХ УСЛУГ
+   ============================================================ */
+
+.service-card .service-link {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    align-self: center;
+    margin: 18px 35px 0;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, #ff8c1a 0%, var(--primary) 50%, var(--primary-dark) 100%);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.35);
+    white-space: nowrap;
+    position: relative;
+    z-index: 3;
+}
+
+.service-card .service-link:hover {
+    transform: translateX(5px);
+    box-shadow: 0 12px 30px rgba(255, 106, 0, 0.55);
+}
+
+.service-card .service-link:active {
+    transform: translateX(5px) scale(0.97);
+}
+
+.service-card .service-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .service-card .service-link {
+        margin: 16px 22px 0;
+        padding: 12px 24px;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        width: calc(100% - 44px);
+    }
+}
+
+@media (max-width: 600px) {
+    .service-card .service-link {
+        margin: 14px 18px 0;
+        width: calc(100% - 36px);
+    }
+}
+
+@media (max-width: 400px) {
+    .service-card .service-link {
+        margin: 12px 15px 0;
+        width: calc(100% - 30px);
+        font-size: 11px;
+        letter-spacing: 1px;
+    }
+}
+/* Добавлено: аккуратная ссылка в админ-панель, существующий футер не меняется. */
+.cms-admin-link-wrap{display:inline-block;margin-left:14px}.cms-admin-link{color:inherit;opacity:.55;text-decoration:none;font-size:.88em;transition:opacity .2s ease}.cms-admin-link:hover{opacity:1;color:var(--primary)}
+
+
+/* ============================================================
+   ДОПОЛНЕНИЕ: МОБИЛЬНАЯ ПРОКРУТКА РАСПИСАНИЯ
+   Добавлено без изменения существующих стилей.
+   ============================================================ */
+
+.schedule-wrapper {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x !important;
+}
+
+.schedule-mobile-hint {
+    display: none;
+    width: 100%;
+    margin: 8px auto 0;
+    padding: 3px 8px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+.schedule-mobile-hint__text {
+    display: inline-block;
+    animation: scheduleSwipeHint 1.65s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes scheduleSwipeHint {
+    0%, 100% {
+        transform: translateX(-12px);
+    }
+    50% {
+        transform: translateX(12px);
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-mobile-hint {
+        display: block;
+    }
+
+    .schedule-wrapper {
+        scrollbar-width: thin;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .schedule-mobile-hint__text {
+        animation: none;
+    }
+}
+/*
+   ДОБАВЛЕНИЕ: УНИВЕРСАЛЬНАЯ АДАПТАЦИЯ 800x600 — 5120x2880 + мобильные устройства
+   Исходные стили не заменяются: ниже находятся только дополнительные правила.
+*/
+
+/* Базовая защита от переполнения на любых viewport. */
+html,
+body,
+.main-content,
+section {
+    width: 100%;
+    min-width: 0;
+}
+
+section > *,
+.trainers-grid,
+.services-grid,
+.schedule-trainers,
+.gallery-grid,
+.events-grid,
+.contacts-info {
+    min-width: 0;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+    max-width: 100%;
+}
+
+/* Жидкие отступы: интерфейс плавно меняется без скачков между брейкпоинтами. */
+section {
+    padding-left: clamp(16px, 3.5vw, 120px);
+    padding-right: clamp(16px, 3.5vw, 120px);
+}
+
+.hero {
+    gap: clamp(20px, 3vw, 80px);
+}
+
+.hero-text {
+    min-width: 0;
+}
+
+.hero-title,
+.section-title,
+.schedule-trainer__name {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.hero-subtitle,
+.hero-tagline {
+    max-width: 100%;
+}
+
+.hero-subtitle {
+    flex-wrap: wrap;
+}
+
+.hero-logo {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.hero-logo img {
+    width: min(100%, 900px);
+    max-height: 78vh;
+    object-fit: contain;
+}
+
+/* Контент не растягивается бесконечно на 2K/4K/5K, но использует свободное место. */
+@media (min-width: 1400px) {
+    .trainers-grid { max-width: min(1600px, 88vw); gap: clamp(25px, 1.4vw, 42px); }
+    .services-grid { max-width: min(1500px, 84vw); gap: clamp(28px, 1.8vw, 48px); }
+    .schedule-trainers { max-width: min(1500px, 84vw); }
+    .gallery-grid { max-width: min(1800px, 88vw); margin-left: auto; margin-right: auto; }
+    .events-grid { max-width: min(1500px, 84vw); margin-left: auto; margin-right: auto; }
+
+    .trainer-card { padding: clamp(30px, 1.6vw, 48px) clamp(22px, 1.4vw, 38px); }
+    .service-card { padding-bottom: clamp(36px, 1.8vw, 54px); }
+    .schedule-table th,
+    .schedule-table td { padding: clamp(12px, 0.8vw, 20px) clamp(12px, 0.9vw, 22px); }
+}
+
+/* 4K / 5K: сохраняем читаемость и не допускаем визуального "разрыва" интерфейса. */
+@media (min-width: 2560px) {
+    :root {
+        --section-padding-y: clamp(80px, 5vw, 140px);
+    }
+
+    .hero-title { font-size: clamp(64px, 4.4vw, 112px); }
+    .hero-subtitle { font-size: clamp(18px, 1vw, 28px); }
+    .section-title { font-size: clamp(46px, 3vw, 72px); }
+    .section-subtitle { font-size: clamp(15px, 0.8vw, 20px); }
+
+    .trainer-name { font-size: clamp(17px, 1vw, 23px); }
+    .trainer-spec { font-size: clamp(13px, 0.75vw, 17px); }
+    .trainer-desc { font-size: clamp(13px, 0.7vw, 17px); }
+
+    .service-title { font-size: clamp(20px, 1.05vw, 28px); }
+    .service-intro,
+    .service-features li { font-size: clamp(14px, 0.72vw, 18px); }
+    .service-price { font-size: clamp(22px, 1.1vw, 30px); }
+
+    .event-title { font-size: clamp(16px, 0.85vw, 23px); }
+    .event-desc { font-size: clamp(13px, 0.7vw, 17px); }
+}
+
+/* 800x600 — 1200px: компактный desktop / ноутбуки / планшеты landscape. */
+@media (min-width: 769px) and (max-width: 1200px) {
+    :root {
+        --sidebar-width: 76px;
+        --section-padding-x: clamp(22px, 3vw, 44px);
+        --section-padding-y: clamp(48px, 7vh, 72px);
+    }
+
+    section {
+        padding-left: clamp(22px, 3vw, 44px);
+        padding-right: clamp(22px, 3vw, 44px);
+    }
+
+    .hero {
+        grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+        gap: clamp(18px, 2.5vw, 38px);
+    }
+
+    .hero-title { font-size: clamp(36px, 5.6vw, 70px); }
+    .hero-logo img { width: min(100%, 520px); max-height: 66vh; }
+
+    .trainers-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .schedule-trainers { max-width: 100%; }
+}
+
+/* Низкий экран: особенно важно для 800x600 / 1024x600 и маленьких ноутбуков. */
+@media (min-width: 769px) and (max-height: 720px) {
+    section {
+        min-height: auto;
+        padding-top: clamp(38px, 6vh, 58px);
+        padding-bottom: clamp(38px, 6vh, 58px);
+    }
+
+    #hero {
+        min-height: 100svh;
+        padding-top: clamp(28px, 5vh, 48px);
+        padding-bottom: clamp(28px, 5vh, 48px);
+    }
+
+    .hero-logo img { max-height: 58vh; }
+    .hero-tagline { bottom: 20px; }
+}
+
+/* Телефоны и планшеты portrait. */
+@media (max-width: 768px) {
+    section {
+        min-height: auto;
+        padding-left: clamp(12px, 4vw, 24px);
+        padding-right: clamp(12px, 4vw, 24px);
+    }
+
+    #hero {
+        min-height: 100svh;
+        min-height: 100dvh;
+        gap: clamp(18px, 5vw, 30px);
+    }
+
+    .hero-title {
+        font-size: clamp(27px, 8.7vw, 52px);
+        line-height: 0.96;
+        letter-spacing: clamp(0.5px, 0.5vw, 2px);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(10px, 2.8vw, 15px);
+        letter-spacing: clamp(0.5px, 0.8vw, 2px);
+    }
+
+    .hero-logo img {
+        width: min(100%, 420px);
+        max-height: 48vh;
+    }
+
+    .hero-tagline {
+        position: static;
+        margin-top: clamp(14px, 3vw, 22px);
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+        line-height: 1.35;
+    }
+
+    .trainers-grid,
+    .services-grid,
+    .events-grid {
+        width: 100%;
+    }
+
+    .trainers-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .services-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .event-card,
+    .contact-item,
+    .schedule-wrapper {
+        max-width: 100%;
+    }
+
+    .schedule-wrapper {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .schedule-table {
+        width: max-content;
+        min-width: 640px;
+        max-width: none;
+    }
+
+    .schedule-mobile-hint {
+        max-width: 100%;
+        font-size: clamp(9px, 2.4vw, 11px);
+        letter-spacing: clamp(0.35px, 0.4vw, 0.8px);
+    }
+}
+
+@media (max-width: 520px) {
+    .gallery-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero-logo img {
+        max-height: 42vh;
+    }
+
+    .hero-subtitle {
+        gap: 8px;
+    }
+}
+
+/* Очень маленькие экраны / split-screen. */
+@media (max-width: 360px) {
+    section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .hero-title { font-size: 25px; }
+    .hero-logo img { max-width: 270px; }
+    .schedule-table { min-width: 560px; }
+    .schedule-mobile-hint { font-size: 8px; }
+}
+
+/* Высокие portrait-экраны: не растягиваем карточки и сохраняем естественный ритм. */
+@media (max-width: 768px) and (min-height: 900px) {
+    section {
+        padding-top: clamp(52px, 7vh, 90px);
+        padding-bottom: clamp(52px, 7vh, 90px);
+    }
+}
+
+/* Мелкая физическая поверхность: не даём длинным словам ломать сетку. */
+.trainer-card,
+.service-card,
+.event-card,
+.contact-item,
+.schedule-trainer,
+.schedule-legend,
+.gallery-item {
+    overflow-wrap: anywhere;
+}
+
+/* Таблица всегда остаётся внутри визуального контейнера; горизонтальный скролл — только внутри неё. */
+.schedule-trainer {
+    min-width: 0;
+}
+
+.schedule-trainer .schedule-wrapper {
+    width: 100%;
+}
+
+/* На сенсорных устройствах показываем явную подсказку движения. */
+@media (hover: none) and (pointer: coarse) {
+    .schedule-mobile-hint {
+        display: block;
+    }
+}
+
+/* ============================================================
+   ДОПОЛНЕНИЕ: ФИНАЛЬНАЯ ФИКСАЦИЯ РАСПИСАНИЯ
+   Добавлено поверх существующих стилей. Исходные правила не удаляются.
+   ============================================================ */
+
+/* Легенда расписания: фиксированная сетка вместо сжимающихся flex-элементов.
+   Это предотвращает наложение длинных подписей на соседние категории. */
+.schedule-legend {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: stretch;
+    justify-items: stretch;
+    column-gap: clamp(12px, 1.6vw, 28px);
+    row-gap: 10px;
+}
+
+.schedule-legend .legend-item {
+    min-width: 0 !important;
+    width: 100%;
+    max-width: none;
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    line-height: 1.25;
+    justify-content: flex-start;
+}
+
+.schedule-legend .legend-item .legend-dot {
+    flex: 0 0 auto;
+}
+
+.schedule-legend .legend-label {
+    min-width: 0;
+    display: block;
+}
+
+/* Кнопка Excel: строго одна надпись, без повторов и лишнего переноса. */
+.download-schedule-btn {
+    white-space: nowrap;
+}
+
+@media (max-width: 1050px) {
+    .schedule-legend {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .schedule-legend {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 12px;
+        row-gap: 10px;
+    }
+}
+
+@media (max-width: 430px) {
+    .schedule-legend {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================
+   FINAL ADD-ONLY PATCH: SCHEDULE LAYOUT + RESPONSIVE VIEWPORT
+   Исходный CSS не изменяется. Этот блок имеет приоритет и
+   стабилизирует расписание на desktop / tablet / mobile.
+   ============================================================ */
+
+/* Центрируем расписание относительно доступной области контента,
+   а не относительно фиксированных пикселей экрана. */
+#schedule .schedule-trainers {
+    width: min(100%, 1600px) !important;
+    max-width: 1600px !important;
+    margin-inline: auto !important;
+    padding-inline: 0 !important;
+    box-sizing: border-box;
+}
+
+#schedule .schedule-trainer {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+}
+
+#schedule .schedule-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-inline: auto !important;
+    box-sizing: border-box;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+#schedule .schedule-table {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    box-sizing: border-box;
+}
+
+/* Столбцы: день / время / группа. */
+#schedule .schedule-table th:nth-child(1),
+#schedule .schedule-table td:nth-child(1) {
+    width: 17%;
+}
+
+#schedule .schedule-table th:nth-child(2),
+#schedule .schedule-table td:nth-child(2) {
+    width: 23%;
+}
+
+#schedule .schedule-table th:nth-child(3),
+#schedule .schedule-table td:nth-child(3) {
+    width: 60%;
+}
+
+/* Столбец с именем тренера больше не отображается.
+   Это совместимо и со старой, и с новой генерацией таблицы. */
+#schedule .schedule-table th:nth-child(n+4),
+#schedule .schedule-table td.coach,
+#schedule .schedule-table td:nth-child(n+4) {
+    display: none !important;
+}
+
+#schedule .schedule-table .group-tag {
+    max-width: 100%;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    box-sizing: border-box;
+}
+
+#schedule .schedule-table .time {
+    white-space: nowrap;
+}
+
+/* Экран теперь не зависит от конкретных моделей мониторов:
+   размер текста и отступов плавно рассчитывается от viewport. */
+#schedule .schedule-table th,
+#schedule .schedule-table td {
+    font-size: clamp(10px, 0.72vw, 16px);
+    padding: clamp(10px, 0.75vw, 18px) clamp(10px, 0.9vw, 22px);
+}
+
+#schedule .schedule-table .day {
+    font-size: clamp(11px, 0.78vw, 17px);
+}
+
+#schedule .schedule-table .time {
+    font-size: clamp(10px, 0.68vw, 15px);
+}
+
+#schedule .group-tag {
+    font-size: clamp(9px, 0.60vw, 13px) !important;
+    padding: clamp(4px, 0.35vw, 7px) clamp(7px, 0.55vw, 12px);
+}
+
+/* Большие мониторы / 2K / 4K / 5K — больше пространства,
+   но без растягивания таблицы на весь бесконечный экран. */
+@media (min-width: 1920px) {
+    #schedule .schedule-trainers {
+        width: min(100%, 1700px) !important;
+        max-width: 1700px !important;
+    }
+}
+
+/* Планшеты и небольшие desktop-экраны. */
+@media (min-width: 769px) and (max-width: 1200px) {
+    #schedule .schedule-trainers {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Телефоны: таблица становится компактной; если физическая ширина
+   всё же меньше содержимого, прокрутка остаётся внутри таблицы. */
+@media (max-width: 768px) {
+    #schedule .schedule-trainers {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #schedule .schedule-table {
+        min-width: 560px !important;
+        table-layout: fixed !important;
+    }
+
+    #schedule .schedule-table th,
+    #schedule .schedule-table td {
+        padding: 9px 9px;
+        font-size: 11px;
+    }
+
+    #schedule .group-tag {
+        white-space: nowrap !important;
+        overflow-wrap: normal;
+    }
+}
+
+@media (max-width: 480px) {
+    #schedule .schedule-table {
+        min-width: 520px !important;
+    }
+
+    #schedule .schedule-table th,
+    #schedule .schedule-table td {
+        padding: 8px 8px;
+        font-size: 10px;
+    }
+
+    #schedule .schedule-table .day {
+        font-size: 11px;
+    }
+
+    #schedule .group-tag {
+        font-size: 9px !important;
+        padding: 4px 6px;
+    }
+}
+
+/* Не показываем пустую подсказку, если таблица реально помещается. */
+.schedule-mobile-hint[hidden] {
+    display: none !important;
+}
+
+/* ============================================================
+   ADD-ONLY PATCH: ФИНАЛЬНОЕ ИСПРАВЛЕНИЕ VIEWPORT + РАСПИСАНИЯ
+   Причины предыдущих проблем:
+   1) .main-content имел width:100% + margin-left сайдбара,
+      из-за чего фактическая ширина становилась больше viewport.
+   2) контейнер расписания принудительно растягивался почти на
+      всю ширину экрана.
+   Исходные стили выше не удаляются.
+   ============================================================ */
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.main-content {
+    width: calc(100% - var(--sidebar-width)) !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: var(--sidebar-width) !important;
+    box-sizing: border-box !important;
+}
+
+/* Расписание — отдельный аккуратный контейнер, а не полоса во всю страницу. */
+#schedule .schedule-trainers {
+    width: min(88vw, 1400px) !important;
+    max-width: 1400px !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#schedule .schedule-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+#schedule .schedule-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+}
+
+@media (max-width: 1200px) {
+    #schedule .schedule-trainers {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        width: calc(100% - var(--sidebar-width)) !important;
+        margin-left: var(--sidebar-width) !important;
+    }
+
+    #schedule .schedule-trainers {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #schedule .schedule-wrapper {
+        width: 100% !important;
+    }
+
+    #schedule .schedule-table {
+        width: max-content !important;
+        min-width: 560px !important;
+        table-layout: fixed !important;
+    }
+}
+
+@media (max-width: 360px) {
+    #schedule .schedule-table {
+        min-width: 520px !important;
+    }
+}
+
+/* ============================================================
+   ADD-ONLY PATCH: COMPACT / CENTERED SCHEDULE + SERVICE EMOJI
+   Существующий код не удаляется и не переписывается.
+   ============================================================ */
+
+/* Услуги: иконки-эмодзи из CMS больше не показываем.
+   Фотографии услуг остаются без изменений. */
+#services .service-card .service-icon {
+    display: none !important;
+}
+
+/* Расписание: компактный центральный блок вместо растягивания
+   почти на всю ширину страницы. */
+#schedule .schedule-trainers {
+    width: min(72vw, 1100px) !important;
+    max-width: 1100px !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#schedule .schedule-trainer,
+#schedule .schedule-wrapper,
+#schedule .schedule-table {
+    box-sizing: border-box !important;
+}
+
+#schedule .schedule-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* На больших мониторах таблица остаётся компактной и не
+   растягивается вслед за шириной viewport. */
+@media (min-width: 1600px) {
+    #schedule .schedule-trainers {
+        width: min(68vw, 1100px) !important;
+        max-width: 1100px !important;
+    }
+}
+
+/* Ноутбуки / планшеты: немного больше доступной ширины,
+   сохраняя центрирование. */
+@media (min-width: 769px) and (max-width: 1200px) {
+    #schedule .schedule-trainers {
+        width: min(82vw, 1000px) !important;
+        max-width: 1000px !important;
+    }
+}
+
+/* Телефоны: таблица занимает весь доступный контейнер;
+   горизонтальный скролл остаётся только внутри таблицы. */
+@media (max-width: 768px) {
+    #schedule .schedule-trainers {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+
+
+/* ============================================================
+   ADD-ONLY PATCH: КОМПАКТНАЯ КОЛОНКА «ГРУППА»
+   ============================================================ */
+#schedule .schedule-table {
+    table-layout: fixed !important;
+}
+
+#schedule .schedule-table th:nth-child(1),
+#schedule .schedule-table td.day {
+    width: 18% !important;
+}
+
+#schedule .schedule-table th:nth-child(2),
+#schedule .schedule-table td.time {
+    width: 27% !important;
+}
+
+#schedule .schedule-table th:nth-child(3),
+#schedule .schedule-table tbody td:nth-child(3) {
+    width: 55% !important;
+}
+
+#schedule .schedule-table td:nth-child(3) {
+    overflow: hidden;
+}
+
+#schedule .group-tag {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    #schedule .schedule-table {
+        min-width: 560px !important;
+    }
+
+    #schedule .schedule-table th:nth-child(1),
+    #schedule .schedule-table td.day {
+        width: 17% !important;
+    }
+
+    #schedule .schedule-table th:nth-child(2),
+    #schedule .schedule-table td.time {
+        width: 28% !important;
+    }
+
+    #schedule .schedule-table th:nth-child(3),
+    #schedule .schedule-table tbody td:nth-child(3) {
+        width: 55% !important;
+    }
+}
+
+/* ============================================================
+   ADD-ONLY PATCH: ЦЕНТРИРОВАНИЕ И КОМПАКТНАЯ ТАБЛИЦА РАСПИСАНИЯ
+   ============================================================ */
+.schedule-trainers {
+    width: min(920px, calc(100vw - 40px)) !important;
+    max-width: 920px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-items: center !important;
+}
+
+.schedule-trainer {
+    width: 100% !important;
+    max-width: 920px !important;
+}
+
+.schedule-trainer .schedule-wrapper {
+    width: 100% !important;
+    max-width: 920px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.schedule-trainer .schedule-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+}
+
+.schedule-trainer .schedule-table th:nth-child(1),
+.schedule-trainer .schedule-table td:nth-child(1) {
+    width: 17% !important;
+}
+
+.schedule-trainer .schedule-table th:nth-child(2),
+.schedule-trainer .schedule-table td:nth-child(2) {
+    width: 23% !important;
+}
+
+.schedule-trainer .schedule-table th:nth-child(3),
+.schedule-trainer .schedule-table td:nth-child(3) {
+    width: 60% !important;
+}
+
+.schedule-trainer .schedule-table td:nth-child(3) {
+    overflow: hidden;
+}
+
+.schedule-trainer .group-tag {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.schedule-trainer-chooser {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 18px;
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,106,0,.24);
+    background: rgba(255,106,0,.05);
+}
+
+.schedule-trainer-chooser label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.schedule-trainer-chooser select {
+    min-width: 210px;
+    padding: 8px 10px;
+}
+
+.schedule-trainer-chooser span {
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: .75;
+}
+
+@media (max-width: 900px) {
+    .schedule-trainers,
+    .schedule-trainer,
+    .schedule-trainer .schedule-wrapper {
+        width: min(100%, calc(100vw - 24px)) !important;
+    }
+}
+
+@media (max-width: 560px) {
+    .schedule-trainers,
+    .schedule-trainer,
+    .schedule-trainer .schedule-wrapper {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+
+    .schedule-trainer .schedule-table th:nth-child(1),
+    .schedule-trainer .schedule-table td:nth-child(1) { width: 20% !important; }
+    .schedule-trainer .schedule-table th:nth-child(2),
+    .schedule-trainer .schedule-table td:nth-child(2) { width: 27% !important; }
+    .schedule-trainer .schedule-table th:nth-child(3),
+    .schedule-trainer .schedule-table td:nth-child(3) { width: 53% !important; }
+
+    .schedule-trainer-chooser {
+        align-items: stretch;
+    }
+
+    .schedule-trainer-chooser label {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .schedule-trainer-chooser select {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+
+/* ADD-ONLY: финальная адаптация расписания */
+#schedule .schedule-trainers {
+  width: min(1180px, calc(100vw - 40px));
+  max-width: 1180px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#schedule .schedule-trainer {
+  width: 100%;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#schedule .schedule-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#schedule .schedule-table {
+  width: 100%;
+  min-width: 700px;
+  table-layout: fixed;
+}
+#schedule .schedule-table th:nth-child(1),
+#schedule .schedule-table td.day { width: 18%; }
+#schedule .schedule-table th:nth-child(2),
+#schedule .schedule-table td.time { width: 24%; }
+#schedule .schedule-table th:nth-child(3),
+#schedule .schedule-table td:last-child { width: 58%; }
+#schedule .schedule-table td:last-child { padding-left: 22px; }
+
+@media (max-width: 900px) {
+  #schedule .schedule-trainers { width: min(calc(100% - 24px), 760px); }
+  #schedule .schedule-table { min-width: 620px; }
+}
+@media (max-width: 640px) {
+  #schedule .schedule-trainers { width: calc(100vw - 16px); }
+  #schedule .schedule-table { min-width: 580px; }
+}
+
+/* ============================================================
+   ADD-ONLY PATCH: ФИНАЛЬНЫЙ КОМПАКТНЫЙ ВИД РАСПИСАНИЯ
+   - ещё сильнее уменьшаем колонку «Группа»;
+   - таблица центрируется;
+   - ширина таблицы не опускается ниже разумной ширины
+     заголовка с ФИО тренера;
+   - на маленьких экранах сохраняется внутренняя прокрутка.
+   ============================================================ */
+
+#schedule .schedule-trainers {
+    width: min(920px, calc(100vw - 40px)) !important;
+    max-width: 920px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#schedule .schedule-trainer {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+}
+
+#schedule .schedule-trainer__header {
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+
+#schedule .schedule-trainer .schedule-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+}
+
+#schedule .schedule-trainer .schedule-table {
+    width: 100% !important;
+    min-width: 760px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* День / время / группа.
+   «Группа» заметно уже, поэтому таблица выглядит плотнее. */
+#schedule .schedule-trainer .schedule-table th:nth-child(1),
+#schedule .schedule-trainer .schedule-table td:nth-child(1) {
+    width: 18% !important;
+}
+
+#schedule .schedule-trainer .schedule-table th:nth-child(2),
+#schedule .schedule-trainer .schedule-table td:nth-child(2) {
+    width: 42% !important;
+}
+
+#schedule .schedule-trainer .schedule-table th:nth-child(3),
+#schedule .schedule-trainer .schedule-table td:nth-child(3) {
+    width: 40% !important;
+}
+
+#schedule .schedule-trainer .schedule-table td:nth-child(3) {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+#schedule .schedule-trainer .group-tag {
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+@media (min-width: 769px) {
+    #schedule .schedule-trainer .schedule-table {
+        min-width: 760px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #schedule .schedule-trainers {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+
+    #schedule .schedule-trainer .schedule-table {
+        min-width: 620px !important;
+        width: max-content !important;
+    }
+
+    #schedule .schedule-trainer .schedule-table th:nth-child(1),
+    #schedule .schedule-trainer .schedule-table td:nth-child(1) {
+        width: 18% !important;
+    }
+
+    #schedule .schedule-trainer .schedule-table th:nth-child(2),
+    #schedule .schedule-trainer .schedule-table td:nth-child(2) {
+        width: 42% !important;
+    }
+
+    #schedule .schedule-trainer .schedule-table th:nth-child(3),
+    #schedule .schedule-trainer .schedule-table td:nth-child(3) {
+        width: 40% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #schedule .schedule-trainer .schedule-table {
+        min-width: 580px !important;
+    }
+}
+
+/* ============================================================
+   ADD-ONLY PATCH: аккуратное расписание
+   Центрирование, компактная колонка «Группа», ровные строки.
+   ============================================================ */
+#schedule .schedule-trainers {
+    width: min(92vw, 940px);
+    max-width: 940px;
+    margin-inline: auto;
+    align-items: stretch;
+}
+
+#schedule .schedule-trainer,
+#schedule .schedule-trainer__header,
+#schedule .schedule-trainer .schedule-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#schedule .schedule-trainer__header {
+    max-width: 940px;
+    margin-inline: auto;
+}
+
+#schedule .schedule-trainer .schedule-wrapper {
+    max-width: 940px;
+    margin-inline: auto;
+    overflow-x: auto;
+    border-radius: 0;
+}
+
+#schedule .schedule-trainer .schedule-table {
+    width: 100%;
+    min-width: 720px;
+    table-layout: fixed;
+}
+
+#schedule .schedule-trainer .schedule-table th,
+#schedule .schedule-trainer .schedule-table td {
+    box-sizing: border-box;
+}
+
+#schedule .schedule-trainer .schedule-table th:nth-child(1),
+#schedule .schedule-trainer .schedule-table td.day {
+    width: 18%;
+}
+
+#schedule .schedule-trainer .schedule-table th:nth-child(2),
+#schedule .schedule-trainer .schedule-table td.time {
+    width: 24%;
+}
+
+#schedule .schedule-trainer .schedule-table th:nth-child(3),
+#schedule .schedule-trainer .schedule-table td:nth-child(3) {
+    width: 58%;
+}
+
+#schedule .schedule-trainer .schedule-table th {
+    height: 52px;
+    padding: 13px 16px;
+}
+
+#schedule .schedule-trainer .schedule-table td {
+    height: 62px;
+    padding: 12px 16px;
+    line-height: 1.15;
+}
+
+#schedule .schedule-trainer .schedule-table td.day {
+    padding-inline: 10px;
+}
+
+#schedule .schedule-trainer .schedule-table td.time {
+    white-space: nowrap;
+}
+
+#schedule .schedule-trainer .schedule-table td:nth-child(3) {
+    text-align: left;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+#schedule .schedule-trainer .schedule-table .group-tag {
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+@media (min-width: 769px) {
+    #schedule .schedule-trainer .schedule-table td:nth-child(3),
+    #schedule .schedule-trainer .schedule-table th:nth-child(3) {
+        max-width: 440px;
+    }
+}
+
+@media (max-width: 768px) {
+    #schedule .schedule-trainers,
+    #schedule .schedule-trainer__header,
+    #schedule .schedule-trainer .schedule-wrapper {
+        width: calc(100% - 20px);
+        max-width: none;
+    }
+
+    #schedule .schedule-trainer .schedule-table {
+        min-width: 680px;
+    }
+
+    #schedule .schedule-trainer .schedule-table th,
+    #schedule .schedule-trainer .schedule-table td {
+        padding: 10px 12px;
+    }
+}
+
+/* ADD-ONLY: ясный единый счётчик расписания */
+.schedule-total-count { display:inline-block; margin-left:12px; font-size:.72em; font-weight:700; opacity:.75; letter-spacing:.04em; white-space:nowrap; }
+@media (max-width:700px){ .schedule-total-count{display:block;margin:8px 0 0;font-size:.68em;} }
+
+
+/* ============================================================
+   ВЫБОР ТАРИФА И ОПЛАТА
+   ============================================================ */
+.payment-modal { position: fixed; inset: 0; z-index: 1200; display: none; align-items: center; justify-content: center; padding: 22px; }
+.payment-modal.active { display: flex; }
+.payment-modal__overlay { position: absolute; inset: 0; background: rgba(0,0,0,.78); backdrop-filter: blur(7px); }
+.payment-modal__content { position: relative; z-index: 1; width: min(780px, 100%); max-height: min(88vh, 900px); overflow: auto; padding: clamp(22px,4vw,40px); background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); border-top: 5px solid var(--primary); box-shadow: 0 28px 90px rgba(0,0,0,.45); animation: paymentModalIn .22s ease-out; }
+@keyframes paymentModalIn { from { opacity: 0; transform: translateY(12px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.payment-modal__close { position: sticky; float: right; top: 0; margin: -10px -8px 0 12px; width: 42px; height: 42px; border: 1px solid var(--border); background: transparent; color: var(--text-main); font-size: 30px; line-height: 1; cursor: pointer; }
+.payment-modal__eyebrow { color: var(--primary); text-transform: uppercase; letter-spacing: 3px; font-size: 11px; font-weight: 800; margin-bottom: 9px; }
+.payment-modal__content h2 { margin: 0 0 12px; font-family: 'Russo One', sans-serif; font-size: clamp(22px, 4vw, 31px); text-transform: uppercase; color: var(--primary); }
+.payment-modal__intro, .payment-modal__notice { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+.payment-modal__intro { margin-bottom: 22px; max-width: 620px; }
+.payment-modal__notice { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--border); }
+.payment-tariff-group { margin: 18px 0 25px; }
+.payment-tariff-group h3 { font-size: 14px; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.2px; margin: 0 0 10px; }
+.payment-tariff-rows { border: 1px solid var(--border); }
+.payment-tariff-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.payment-tariff-row:last-child { border-bottom: 0; }
+.payment-tariff-copy { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.payment-tariff-copy strong { font-size: 14px; color: var(--text-main); }
+.payment-tariff-copy span { font-size: 12px; color: var(--text-muted); }
+.payment-tariff-action { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.payment-tariff-action b { color: var(--primary); font-family: 'Russo One', sans-serif; font-size: 16px; white-space: nowrap; }
+.payment-pay-button { min-width: 105px; border: 0; background: var(--primary); color: #fff; padding: 11px 14px; font-weight: 800; cursor: pointer; transition: transform .16s ease, background .16s ease; }
+.payment-pay-button:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.payment-pay-button:disabled { opacity: .6; cursor: wait; transform: none; }
+.payment-loading, .payment-error { padding: 16px; color: var(--text-muted); line-height: 1.5; }
+.payment-error { color: #d84f35; }
+body.dark-theme .payment-modal__content { background: #171717; }
+@media (max-width: 560px) {
+  .payment-modal { padding: 9px; align-items: flex-end; }
+  .payment-modal__content { max-height: 94vh; padding: 22px 15px; }
+  .payment-tariff-row { align-items: flex-start; padding: 12px 10px; gap: 8px; }
+  .payment-tariff-copy strong { font-size: 12px; }
+  .payment-tariff-action { flex-direction: column; align-items: flex-end; gap: 8px; }
+  .payment-tariff-action b { font-size: 14px; }
+  .payment-pay-button { min-width: 90px; padding: 9px 10px; font-size: 12px; }
+}
+
+.payment-customer-info { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 16px; margin: 0 0 18px; border: 1px solid var(--border); background: rgba(128,128,128,.06); }
+.payment-customer-info[hidden] { display: none; }
+.payment-customer-info p { margin: 0 0 4px; color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+.payment-customer-info label { margin-top: 4px; color: var(--text-muted); font-size: 12px; font-weight: 700; }
+.payment-customer-info input { width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); outline-color: var(--primary); }
+
+.service-card .service-booking-link { display: inline-flex; align-items: center; justify-content: center; align-self: center; margin: 10px 35px 0; padding: 10px 20px; width: calc(100% - 70px); background: transparent; color: var(--text-muted); border: 1px solid var(--border); font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+.service-card .service-booking-link:hover { color: var(--primary); border-color: var(--primary); background: rgba(255,106,0,.05); }
+@media (max-width: 768px) { .service-card .service-booking-link { margin: 9px 22px 0; width: calc(100% - 44px); } }
+@media (max-width: 600px) { .service-card .service-booking-link { margin: 8px 18px 0; width: calc(100% - 36px); } }
+@media (max-width: 400px) { .service-card .service-booking-link { margin: 8px 15px 0; width: calc(100% - 30px); } }

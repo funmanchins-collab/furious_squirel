@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "^(config\.php|config\.local\.php|api\.php|install\.php|payments\.php|payments-lib\.php|payment-webhook\.php|payment-result\.php|payment\.local\.php)$">
+    Require all granted
+</FilesMatch>
