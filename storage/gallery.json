@@ -1,0 +1,80 @@
+[
+  {
+    "id": "album-1",
+    "title": "Тренировка на трассе",
+    "photos": [
+      {
+        "path": "images/galery/1.jpg",
+        "alt": "Тренировка на трассе",
+        "caption": "Тренировка на трассе",
+        "created_at": "legacy",
+        "managed": false
+      }
+    ]
+  },
+  {
+    "id": "album-2",
+    "title": "Прохождение препятствий",
+    "photos": [
+      {
+        "path": "images/galery/2.jpg",
+        "alt": "Прохождение препятствий",
+        "caption": "Прохождение препятствий",
+        "created_at": "legacy",
+        "managed": false
+      }
+    ]
+  },
+  {
+    "id": "album-3",
+    "title": "Работа на рукоходе",
+    "photos": [
+      {
+        "path": "images/galery/3.jpg",
+        "alt": "Рукоход",
+        "caption": "Работа на рукоходе",
+        "created_at": "legacy",
+        "managed": false
+      }
+    ]
+  },
+  {
+    "id": "album-4",
+    "title": "Ninja Kids",
+    "photos": [
+      {
+        "path": "images/galery/4.jpg",
+        "alt": "Детская группа",
+        "caption": "Ninja Kids",
+        "created_at": "legacy",
+        "managed": false
+      }
+    ]
+  },
+  {
+    "id": "album-5",
+    "title": "На соревнованиях",
+    "photos": [
+      {
+        "path": "images/galery/5.jpg",
+        "alt": "Соревнования",
+        "caption": "На соревнованиях",
+        "created_at": "legacy",
+        "managed": false
+      }
+    ]
+  },
+  {
+    "id": "album-6",
+    "title": "Наша команда",
+    "photos": [
+      {
+        "path": "images/galery/6.jpg",
+        "alt": "Команда",
+        "caption": "Наша команда",
+        "created_at": "legacy",
+        "managed": false
+      }
+    ]
+  }
+]
