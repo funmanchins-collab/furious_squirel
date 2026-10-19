@@ -1,0 +1,246 @@
+*{box-sizing:border-box}body{margin:0;background:#101010;color:#f2f2f2;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.hidden{display:none!important}.login-card{width:min(470px,calc(100% - 32px));margin:10vh auto 0;padding:36px;background:#1c1c1c;border:1px solid #333;box-shadow:0 30px 100px rgba(0,0,0,.45)}.brand{font-weight:900;letter-spacing:1.5px;color:#ff7a00}.brand.small{font-size:14px}.login-card h1{font-size:34px;margin:12px 0 8px}.login-card p,.topbar p,.muted,.hint{color:#a9a9a9;line-height:1.5}.login-card label,.panel label{display:block;font-size:13px;font-weight:700;margin:15px 0 7px}.login-card input,.panel input,.panel textarea,.panel select{width:100%;padding:12px 13px;background:#121212;color:#f5f5f5;border:1px solid #3c3c3c;outline:none;border-radius:8px}.panel textarea{min-height:115px;resize:vertical}.btn{border:0;border-radius:8px;padding:11px 15px;font-weight:800;cursor:pointer;color:#fff;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn-primary{background:#ff6a00}.btn-light{background:#2c2c2c}.btn-dark{background:#1a1a1a;border:1px solid #333}.btn-danger{background:#652626}.btn:hover{filter:brightness(1.08)}.login-card .btn{width:100%;margin-top:10px}.error{min-height:20px;color:#ff8b8b;margin-top:10px}.hint{margin:12px 0;padding:12px;background:#27200f;border:1px solid #624915;border-radius:8px}.hint a,.back-site{color:#ff9b50}.back-site{display:inline-block;margin-top:18px}.admin-layout{min-height:100vh;display:grid;grid-template-columns:235px 1fr}.admin-sidebar{position:sticky;top:0;height:100vh;padding:24px 16px;background:#171717;border-right:1px solid #2b2b2b;display:flex;flex-direction:column;gap:22px}.sidebar-sub{color:#777;font-size:12px;margin-top:4px}.admin-sidebar nav{display:grid;gap:6px}.admin-sidebar nav button{background:transparent;border:1px solid transparent;color:#bbb;padding:11px 12px;text-align:left;border-radius:8px;cursor:pointer}.admin-sidebar nav button.active,.admin-sidebar nav button:hover{background:#2a2a2a;color:#fff;border-color:#3c3c3c}.admin-sidebar #logoutBtn{margin-top:auto}.admin-main{padding:30px;min-width:0}.topbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:12px}.topbar h1{margin:0 0 5px;font-size:28px}.actions{display:flex;gap:8px}.status{min-height:24px;color:#ff9b50;margin:4px 0 12px}.status.good{color:#74d58a}.panel{background:#181818;border:1px solid #2d2d2d;border-radius:12px;padding:20px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.item-card{border:1px solid #2d2d2d;border-radius:12px;padding:18px;margin-bottom:14px;background:#151515}.item-head,.album-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.item-head h3,.album-top h2{margin:0}.check{display:flex!important;align-items:center;gap:8px}.check input{width:auto}.table-wrap{overflow:auto;margin-bottom:14px}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:10px;border-bottom:1px solid #2b2b2b;text-align:left}th{color:#999;font-size:12px;text-transform:uppercase}.gallery-help{padding:14px 16px;margin-bottom:16px;background:#201b17;border:1px solid #4b3524;border-radius:10px;color:#d7c6b7}.album-grid{display:grid;gap:18px}.album-card{background:#181818;border:1px solid #2d2d2d;border-radius:14px;padding:18px}.eyebrow{font-size:11px;letter-spacing:1.4px;color:#ff8a2a;font-weight:900;margin-bottom:5px}.album-top h2{font-size:21px}.album-top span{display:block;color:#888;font-size:12px;margin-top:5px}.album-actions{display:flex;gap:8px;flex-wrap:wrap}.upload-btn{display:inline-flex!important;align-items:center;justify-content:center!important;background:#ff6a00;color:#fff;padding:11px 15px;border-radius:8px;cursor:pointer;margin:0!important}.upload-btn input{display:none}.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}.photo-card{overflow:hidden;border:1px solid #303030;border-radius:10px;background:#111}.photo-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}.photo-meta{padding:10px;display:flex;align-items:center;gap:8px;justify-content:space-between}.photo-meta span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#bbb;font-size:12px}.photo-meta .btn{padding:7px 9px;font-size:11px}.empty-photo{padding:24px;color:#777;border:1px dashed #383838;border-radius:10px;grid-column:1/-1}.album-card .btn{font-size:12px}@media(max-width:900px){.admin-layout{grid-template-columns:1fr}.admin-sidebar{position:static;height:auto}.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2,.grid3{grid-template-columns:1fr}.topbar{flex-direction:column}}@media(max-width:560px){.admin-main{padding:18px}.photo-grid{grid-template-columns:1fr}.actions,.album-actions{width:100%}.actions .btn,.album-actions>*{flex:1}.login-card{margin-top:5vh}}
+
+.text-group{padding:16px 0;border-bottom:1px solid #2b2b2b}.text-group:first-child{padding-top:0}.text-group:last-child{border-bottom:0}.text-group h3{margin:0}.media-editor-inline{display:flex;gap:16px;align-items:center;margin:10px 0 16px;padding:12px;border:1px solid #303030;border-radius:10px;background:#121212}.media-editor-inline>img{width:120px;height:85px;object-fit:cover;border-radius:8px;background:#0b0b0b}.media-editor-inline>div{min-width:0;flex:1}.inline-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.media-section{padding:4px 0 22px}.media-section h3{margin:0 0 14px}.media-library-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.media-library-card{display:flex;gap:12px;padding:12px;border:1px solid #303030;border-radius:10px;background:#121212;min-width:0}.media-library-card>img{width:140px;height:100px;object-fit:cover;border-radius:8px;flex:none;background:#0b0b0b}.media-library-info{min-width:0;flex:1}.media-library-info strong{display:block;margin-bottom:5px}.media-library-info span{display:block;color:#777;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.media-note{padding:14px;background:#201b17;border:1px solid #4b3524;border-radius:10px;color:#d7c6b7}.btn:disabled{opacity:.5;cursor:not-allowed}@media(max-width:900px){.media-library-grid{grid-template-columns:1fr}}@media(max-width:560px){.media-editor-inline{align-items:flex-start;flex-direction:column}.media-editor-inline>img{width:100%;height:auto;max-height:220px}.media-library-card{flex-direction:column}.media-library-card>img{width:100%;height:auto;max-height:240px}}
+/* ДОБАВЛЕНИЕ: адаптация админ-панели без изменения существующих правил. */
+
+#app,
+.admin-layout,
+.admin-main,
+.panel,
+.item-card,
+.album-card {
+    min-width: 0;
+}
+
+.admin-main {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+@media (min-width: 1200px) {
+    .admin-main {
+        padding: clamp(30px, 2.5vw, 60px);
+    }
+
+    .admin-layout {
+        grid-template-columns: clamp(235px, 17vw, 300px) minmax(0, 1fr);
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .admin-sidebar {
+        width: 100%;
+    }
+
+    .admin-main {
+        padding: clamp(18px, 4vw, 30px);
+    }
+
+    .topbar {
+        gap: 14px;
+    }
+
+    .topbar h1 {
+        font-size: clamp(22px, 4vw, 28px);
+    }
+
+    .table-wrap {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 560px) {
+    .admin-main {
+        padding: 14px;
+    }
+
+    .panel,
+    .item-card,
+    .album-card {
+        padding: 14px;
+    }
+
+    .topbar {
+        align-items: stretch;
+    }
+
+    .actions,
+    .album-actions,
+    .inline-actions {
+        flex-wrap: wrap;
+    }
+
+    .actions .btn,
+    .album-actions > *,
+    .inline-actions > * {
+        flex: 1 1 140px;
+    }
+
+    .media-editor-inline > img,
+    .media-library-card > img {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        max-height: 240px;
+    }
+}
+
+@media (max-width: 360px) {
+    .login-card {
+        width: calc(100% - 20px);
+        padding: 24px 16px;
+    }
+
+    .admin-main {
+        padding: 10px;
+    }
+
+    .btn {
+        padding: 10px 12px;
+    }
+}
+
+
+/* ADD-ONLY: выбор существующего тренера для новой строки расписания */
+.schedule-trainer-chooser {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:0 0 18px;
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  background:rgba(255,255,255,.035);
+}
+.schedule-trainer-chooser label {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0;
+  font-weight:700;
+}
+.schedule-trainer-chooser select {
+  min-width:220px;
+}
+.schedule-trainer-chooser span {
+  color:var(--muted,#999);
+  font-size:12px;
+}
+
+/* ============================================================
+   ADD-ONLY: РАСПИСАНИЕ ПО ТРЕНЕРАМ В АДМИНКЕ
+   ============================================================ */
+.admin-schedule-panel { background: transparent; border: 0; padding: 0; }
+.admin-schedule-intro { margin: 0 0 18px; padding: 16px 18px; border: 1px solid #2d2d2d; border-radius: 12px; background: #181818; }
+.admin-schedule-intro strong { display:block; font-size:18px; margin-bottom:5px; }
+.admin-schedule-intro span { display:block; color:#999; font-size:13px; line-height:1.5; }
+.admin-schedule-trainer { margin: 0 0 18px; border: 1px solid #2d2d2d; border-radius: 14px; background: #151515; overflow: hidden; }
+.admin-schedule-trainer-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; background:linear-gradient(90deg,#1f1f1f,#171717); border-bottom:1px solid #2d2d2d; }
+.admin-schedule-trainer-name { font-size:20px; font-weight:900; letter-spacing:.2px; }
+.admin-schedule-trainer-spec { margin-top:3px; font-size:12px; font-weight:800; color:#ff8a2a; text-transform:uppercase; letter-spacing:1px; }
+.admin-schedule-count { color:#888; font-size:12px; white-space:nowrap; }
+.admin-schedule-table-wrap { margin:0; }
+.admin-schedule-table { width:100%; min-width:0; table-layout:fixed; }
+.admin-schedule-table th:nth-child(1) { width:10%; }
+.admin-schedule-table th:nth-child(2) { width:18%; }
+.admin-schedule-table th:nth-child(3) { width:52%; }
+.admin-schedule-table th:nth-child(4) { width:16%; }
+.admin-schedule-table th:nth-child(5) { width:52px; }
+.admin-schedule-table th, .admin-schedule-table td { padding:9px 10px; vertical-align:middle; }
+.admin-schedule-table input, .admin-schedule-table select { width:100%; min-width:0; }
+.schedule-empty-row { text-align:center; color:#777; padding:22px!important; }
+.schedule-empty { padding:28px; border:1px dashed #3a3a3a; border-radius:12px; color:#777; background:#151515; margin-bottom:18px; text-align:center; }
+
+/* ============================================================
+   ADD-ONLY: ТУМБЛЕР ТЕМЫ КАК НА ПОЛЬЗОВАТЕЛЬСКОМ САЙТЕ
+   ============================================================ */
+.actions { align-items:center; }
+.theme-toggle {
+  position:relative;
+  flex:0 0 auto;
+  width:80px;
+  height:38px;
+  border:none;
+  border-radius:19px;
+  background:linear-gradient(135deg,#ff6a00 0%,#cc4400 100%);
+  cursor:pointer;
+  transition:box-shadow .3s ease, transform .2s ease;
+  box-shadow:0 4px 15px rgba(255,106,0,.45);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  z-index:20;
+}
+.theme-toggle:hover{box-shadow:0 6px 22px rgba(255,106,0,.7)}
+.theme-toggle:active{transform:scale(.94)}
+.theme-toggle .icon-sun,.theme-toggle .icon-moon{width:18px;height:18px;color:#fff;flex-shrink:0;opacity:.55;transition:opacity .3s ease;position:relative;z-index:2}
+body:not(.dark-theme) .theme-toggle .icon-sun{opacity:1}
+body.dark-theme .theme-toggle .icon-moon{opacity:1}
+.theme-toggle .knob{position:absolute;top:3px;left:3px;width:32px;height:32px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:left .35s cubic-bezier(.4,0,.2,1);z-index:1}
+body.dark-theme .theme-toggle .knob{left:calc(100% - 35px)}
+
+/* ============================================================
+   ADD-ONLY: СВЕТЛАЯ ТЕМА АДМИНКИ
+   ============================================================ */
+body:not(.dark-theme) { background:#f2f0ee; color:#1a1a1a; }
+body:not(.dark-theme) .admin-sidebar { background:#fff; border-right-color:#ddd; }
+body:not(.dark-theme) .admin-sidebar nav button { color:#555; }
+body:not(.dark-theme) .admin-sidebar nav button.active,
+body:not(.dark-theme) .admin-sidebar nav button:hover { background:#f1eeeb; color:#1a1a1a; border-color:#ddd; }
+body:not(.dark-theme) .sidebar-sub { color:#777; }
+body:not(.dark-theme) .topbar p,
+body:not(.dark-theme) .muted,
+body:not(.dark-theme) .hint,
+body:not(.dark-theme) .login-card p { color:#555; }
+body:not(.dark-theme) .panel,
+body:not(.dark-theme) .item-card,
+body:not(.dark-theme) .album-card,
+body:not(.dark-theme) .admin-schedule-trainer,
+body:not(.dark-theme) .admin-schedule-intro { background:#fff; border-color:#ddd; }
+body:not(.dark-theme) .admin-schedule-trainer-head { background:linear-gradient(90deg,#faf8f6,#f3efec); border-bottom-color:#ddd; }
+body:not(.dark-theme) .panel input,
+body:not(.dark-theme) .panel textarea,
+body:not(.dark-theme) .panel select,
+body:not(.dark-theme) .login-card input { background:#fff; color:#1a1a1a; border-color:#ccc; }
+body:not(.dark-theme) th { color:#666; }
+body:not(.dark-theme) th,
+body:not(.dark-theme) td { border-bottom-color:#e5e0dc; }
+body:not(.dark-theme) .table-wrap table { color:#1a1a1a; }
+body:not(.dark-theme) .hint { background:#fff5ea; border-color:#e7c8a9; }
+body:not(.dark-theme) .album-card,
+body:not(.dark-theme) .photo-card,
+body:not(.dark-theme) .media-library-card,
+body:not(.dark-theme) .media-editor-inline { background:#fff; border-color:#ddd; }
+body:not(.dark-theme) .media-library-card>img,
+body:not(.dark-theme) .media-editor-inline>img { background:#eee; }
+body:not(.dark-theme) .media-note,
+body:not(.dark-theme) .gallery-help { background:#fff5ea; border-color:#e7c8a9; color:#654b34; }
+body:not(.dark-theme) .schedule-trainer-chooser { background:#faf8f6; border-color:#ddd; }
+body:not(.dark-theme) .schedule-trainer-chooser span { color:#666; }
+body:not(.dark-theme) .schedule-empty,
+body:not(.dark-theme) .schedule-empty-row { color:#777; }
+body:not(.dark-theme) .login-card { background:#fff; border-color:#ddd; box-shadow:0 30px 100px rgba(0,0,0,.12); }
+body:not(.dark-theme) .btn-light { background:#ece8e5; color:#1a1a1a; }
+body:not(.dark-theme) .btn-dark { background:#f3f0ed; color:#1a1a1a; border-color:#d5cfca; }
+body:not(.dark-theme) .btn-danger { background:#9b4a4a; color:#fff; }
+
+/* Верхняя панель не должна ломать переключатель на маленьких экранах. */
+@media(max-width:900px){
+  .actions{width:100%; flex-wrap:wrap;}
+  .actions .theme-toggle{flex:0 0 80px;}
+}
+@media(max-width:560px){
+  .admin-schedule-table{min-width:620px;}
+  .admin-schedule-trainer-head{align-items:flex-start;}
+}
+
+/* ADD-ONLY: итог расписания */
+.admin-schedule-total { margin-top:8px; font-size:13px; font-weight:700; opacity:.78; line-height:1.45; }
